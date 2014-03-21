@@ -2,6 +2,9 @@
 using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Xml;
+using DatenMeister.Entities.FieldInfos;
+using DatenMeister.Logic.Views;
+using ProjektMeister.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,13 +88,31 @@ namespace ProjektMeister.Data
         {
             var viewExtent = new DotNetExtent(viewUri);
 
+            // Creates the view for persons
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = new DotNetObject(viewExtent, personTableView);
             viewExtent.Add(Views.PersonTable);
 
+            var personColumns = new DotNetSequence(
+                new TextField("Name", "name"),
+                new TextField("E-Mail", "email"),
+                new TextField("Phone", "phone"),
+                new TextField("Job", "title"));
+            Views.PersonTable.set("fieldInfos", personColumns);
+            
+            // Creates the view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = new DotNetObject(viewExtent, taskTableView);
             viewExtent.Add(Views.TaskTable);
+
+            var taskColumns = new DotNetSequence(
+                new TextField("Name", "name"),
+                new TextField("Start", "startdate"),
+                new TextField("Ende", "enddate"),
+                new TextField("Finished", "bool"));
+            Views.TaskTable.set("fieldInfos", taskColumns);
+
+            this.pool.Add(viewExtent, null, "ProjektMeister Views");
         }
 
         /// <summary>
