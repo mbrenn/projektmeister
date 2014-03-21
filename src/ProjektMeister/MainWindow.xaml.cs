@@ -34,6 +34,9 @@ namespace ProjektMeister
         private void Window_Initialized(object sender, EventArgs e)
         {
             database.Init();
+
+            this.tablePersons.TableViewInfo = Database.Views.PersonTable;
+            this.tableTasks.TableViewInfo = Database.Views.TaskTable;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DatenMeister;
 using DatenMeister.DataProvider;
+using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Xml;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,11 @@ namespace ProjektMeister.Data
         private const string typeUri = "datenmeister:///projektmeister/types";
 
         /// <summary>
+        /// Stores the uri for the views
+        /// </summary>
+        private const string viewUri = "datenmeister:///projektmeister/views";
+
+        /// <summary>
         /// Stores the datenmeister pool
         /// </summary>
         private DatenMeisterPool pool;
@@ -45,14 +51,25 @@ namespace ProjektMeister.Data
         /// </summary>
         public void Init()
         {
-            pool = new DatenMeisterPool();
+            this.pool = new DatenMeisterPool(); 
+            
+            this.InitDatabase();
+            this.InitTypes();
+            this.InitViews();
+        }
+
+        private void InitDatabase()
+        {
             var dataDocument = new XDocument(new XElement("data"));
             projectExtent = new XmlExtent(dataDocument, uri);
-            pool.Add(projectExtent, null, "ProjektMeister");
+            this.pool.Add(projectExtent, null, "ProjektMeister");
+        }
 
+        private void InitTypes()
+        {
             var typeDocument = new XDocument(new XElement("types"));
             typeExtent = new XmlExtent(typeDocument, typeUri);
-            pool.Add(typeExtent, null, "ProjektMeister Types");
+            this.pool.Add(typeExtent, null, "ProjektMeister Types");
 
             // Creates the types
             Types.Person = typeExtent.CreateObject();
@@ -62,6 +79,19 @@ namespace ProjektMeister.Data
             Types.Task = typeExtent.CreateObject();
             var task = new DatenMeister.Entities.AsObject.Uml.Type(Types.Task);
             task.setName("Task");
+        }
+
+        private void InitViews()
+        {
+            var viewExtent = new DotNetExtent(viewUri);
+
+            var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
+            Views.PersonTable = new DotNetObject(viewExtent, personTableView);
+            viewExtent.Add(Views.PersonTable);
+
+            var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
+            Views.TaskTable = new DotNetObject(viewExtent, taskTableView);
+            viewExtent.Add(Views.TaskTable);
         }
 
         /// <summary>
@@ -76,6 +106,21 @@ namespace ProjektMeister.Data
             }
 
             public static IObject Task
+            {
+                get;
+                internal set;
+            }
+        }
+
+        public static class Views
+        {
+            public static IObject PersonTable
+            {
+                get;
+                internal set;
+            }
+
+            public static IObject TaskTable
             {
                 get;
                 internal set;
