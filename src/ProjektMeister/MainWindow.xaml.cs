@@ -36,7 +36,9 @@ namespace ProjektMeister
             database.Init();
 
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
+            this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
             this.tableTasks.TableViewInfo = Database.Views.TaskTable;
+            this.tableTasks.DetailViewInfo = Database.Views.TaskDetail;
         }
     }
 }

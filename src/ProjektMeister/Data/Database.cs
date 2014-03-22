@@ -88,7 +88,8 @@ namespace ProjektMeister.Data
         {
             var viewExtent = new DotNetExtent(viewUri);
 
-            // Creates the view for persons
+            ////////////////////////////////////////////
+            // List view
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = new DotNetObject(viewExtent, personTableView);
             viewExtent.Add(Views.PersonTable);
@@ -99,7 +100,20 @@ namespace ProjektMeister.Data
                 new TextField("Phone", "phone"),
                 new TextField("Job", "title"));
             Views.PersonTable.set("fieldInfos", personColumns);
-            
+
+            // Detail view
+            var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
+            Views.PersonDetail = new DotNetObject(viewExtent, personDetailView);
+            viewExtent.Add(Views.PersonTable);
+
+            var personDetailColumns = new DotNetSequence(
+                new TextField("Name", "name"),
+                new TextField("E-Mail", "email"),
+                new TextField("Phone", "phone"),
+                new TextField("Job", "title"));
+            Views.PersonDetail.set("fieldInfos", personDetailColumns);
+
+            ////////////////////////////////////////////
             // Creates the view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = new DotNetObject(viewExtent, taskTableView);
@@ -142,6 +156,18 @@ namespace ProjektMeister.Data
             }
 
             public static IObject TaskTable
+            {
+                get;
+                internal set;
+            }
+
+            public static IObject PersonDetail
+            {
+                get;
+                internal set;
+            }
+
+            public static IObject TaskDetail
             {
                 get;
                 internal set;

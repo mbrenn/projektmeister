@@ -7,12 +7,12 @@
         <TabControl >
             <TabItem Header="Persons">
                 <Grid Background="#FFE5E5E5">
-                    <Controls:ObjectTable x:Name="tablePersons"/>
+                    <Controls:EntityTableControl x:Name="tablePersons"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Tasks">
                 <Grid Background="#FFE5E5E5">
-                    <Controls:ObjectTable x:Name="tableTasks"/>
+                    <Controls:EntityTableControl x:Name="tableTasks"/>
                 </Grid>
             </TabItem>
         </TabControl>
