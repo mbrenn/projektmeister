@@ -33,6 +33,9 @@ namespace ProjektMeister
 
         private void Window_Initialized(object sender, EventArgs e)
         {
+            var umlTypes = DatenMeister.Entities.AsObject.Uml.Types.Init();
+            var fieldInfoTypes = DatenMeister.Entities.AsObject.FieldInfo.Types.Init();
+
             database.Init();
 
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
