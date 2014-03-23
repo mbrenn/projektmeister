@@ -1,6 +1,7 @@
 ﻿using DatenMeister;
 using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
+using DatenMeister.DataProvider.Views;
 using DatenMeister.DataProvider.Xml;
 using DatenMeister.Entities.FieldInfos;
 using DatenMeister.Logic.Views;
@@ -87,6 +88,7 @@ namespace ProjektMeister.Data
         private void InitViews()
         {
             var viewExtent = new DotNetExtent(viewUri);
+            DatenMeister.Entities.AsObject.FieldInfo.Types.AssignTypeMapping(viewExtent);
 
             ////////////////////////////////////////////
             // List view

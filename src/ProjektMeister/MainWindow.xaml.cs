@@ -36,6 +36,7 @@ namespace ProjektMeister
             var umlTypes = DatenMeister.Entities.AsObject.Uml.Types.Init();
             var fieldInfoTypes = DatenMeister.Entities.AsObject.FieldInfo.Types.Init();
 
+            // Initializes the database itself
             database.Init();
 
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
