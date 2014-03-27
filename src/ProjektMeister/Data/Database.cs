@@ -50,6 +50,11 @@ namespace ProjektMeister.Data
         /// </summary>
         private IURIExtent typeExtent;
 
+        public IURIExtent ProjectExtent
+        {
+            get { return this.projectExtent; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the the database
         /// </summary>
@@ -65,15 +70,15 @@ namespace ProjektMeister.Data
         private void InitDatabase()
         {
             var dataDocument = new XDocument(new XElement("data"));
-            projectExtent = new XmlExtent(dataDocument, uri);
-            this.pool.Add(projectExtent, null, "ProjektMeister");
+            this.projectExtent = new XmlExtent(dataDocument, uri);
+            this.pool.Add(this.projectExtent, null, "ProjektMeister");
         }
 
         private void InitTypes()
         {
             var typeDocument = new XDocument(new XElement("types"));
-            typeExtent = new XmlExtent(typeDocument, typeUri);
-            this.pool.Add(typeExtent, null, "ProjektMeister Types");
+            this.typeExtent = new XmlExtent(typeDocument, typeUri);
+            this.pool.Add(this.typeExtent, null, "ProjektMeister Types");
 
             // Creates the types
             Types.Person = typeExtent.CreateObject();
