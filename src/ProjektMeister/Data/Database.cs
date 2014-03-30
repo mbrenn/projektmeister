@@ -60,18 +60,28 @@ namespace ProjektMeister.Data
         /// </summary>
         public void Init()
         {
-            this.pool = new DatenMeisterPool(); 
-            
-            this.InitDatabase();
+            this.pool = new DatenMeisterPool();
+
             this.InitTypes();
+            this.InitDatabase();
             this.InitViews();
         }
 
         private void InitDatabase()
         {
             var dataDocument = new XDocument(new XElement("data"));
-            this.projectExtent = new XmlExtent(dataDocument, uri);
+            var projectExtent = new XmlExtent(dataDocument, uri);
             this.pool.Add(this.projectExtent, null, "ProjektMeister");
+
+            var xmlPersons = new XElement("persons");
+            var xmlTasks = new XElement("tasks");
+
+            projectExtent.Mapping.Add("person", Types.Person, xmlPersons);
+            projectExtent.Mapping.Add("task", Types.Task, xmlTasks);
+            dataDocument.Root.Add(xmlPersons);
+            dataDocument.Root.Add(xmlTasks);
+
+            this.projectExtent = projectExtent;
         }
 
         private void InitTypes()
