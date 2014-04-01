@@ -71,6 +71,7 @@ namespace ProjektMeister.Data
         {
             var dataDocument = new XDocument(new XElement("data"));
             var projectExtent = new XmlExtent(dataDocument, uri);
+            projectExtent.SkipRootNode = true;
             this.pool.Add(this.projectExtent, null, "ProjektMeister");
 
             var xmlPersons = new XElement("persons");
@@ -106,7 +107,7 @@ namespace ProjektMeister.Data
             DatenMeister.Entities.AsObject.FieldInfo.Types.AssignTypeMapping(viewExtent);
 
             ////////////////////////////////////////////
-            // List view
+            // List view for persons
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = new DotNetObject(viewExtent, personTableView);
             viewExtent.Add(Views.PersonTable);
@@ -118,7 +119,7 @@ namespace ProjektMeister.Data
                 new TextField("Job", "title"));
             Views.PersonTable.set("fieldInfos", personColumns);
 
-            // Detail view
+            // Detail view for persons
             var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.PersonDetail = new DotNetObject(viewExtent, personDetailView);
             viewExtent.Add(Views.PersonTable);
@@ -131,7 +132,7 @@ namespace ProjektMeister.Data
             Views.PersonDetail.set("fieldInfos", personDetailColumns);
 
             ////////////////////////////////////////////
-            // Creates the view for tasks
+            // List view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = new DotNetObject(viewExtent, taskTableView);
             viewExtent.Add(Views.TaskTable);
@@ -142,6 +143,18 @@ namespace ProjektMeister.Data
                 new TextField("Ende", "enddate"),
                 new TextField("Finished", "bool"));
             Views.TaskTable.set("fieldInfos", taskColumns);
+
+            // Detail view for persons
+            var taskDetailView = new DatenMeister.Entities.FieldInfos.TableView();
+            Views.TaskDetail = new DotNetObject(viewExtent, taskDetailView);
+            viewExtent.Add(Views.TaskDetail);
+
+            var taskDetailColumns = new DotNetSequence(
+                new TextField("Name", "name"),
+                new TextField("Start", "startdate"),
+                new TextField("Ende", "enddate"),
+                new TextField("Finished", "bool"));
+            Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             this.pool.Add(viewExtent, null, "ProjektMeister Views");
         }

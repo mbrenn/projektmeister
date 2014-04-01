@@ -55,14 +55,13 @@ namespace ProjektMeister
             // Initializes the views
 
             this.tablePersons.Extent = database.ProjectExtent;
-            this.tablePersons.TableViewInfo = Database.Views.PersonTable;            
+            this.tablePersons.TableViewInfo = Database.Views.PersonTable;
             this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
             this.tablePersons.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person);
             this.tableTasks.Extent = database.ProjectExtent;
             this.tableTasks.TableViewInfo = Database.Views.TaskTable;
             this.tableTasks.DetailViewInfo = Database.Views.TaskDetail;
             this.tableTasks.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task);
-
         }
     }
 }
