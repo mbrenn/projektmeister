@@ -4,7 +4,19 @@
         xmlns:Controls="clr-namespace:DatenMeister.WPF.Controls;assembly=DatenMeister.WPF" x:Class="ProjektMeister.MainWindow"
         Title="Projekt Meister" Height="350" Width="525" Initialized="Window_Initialized">
     <Grid>
-        <TabControl >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Left">
+            <MenuItem Header="File">
+                <MenuItem Header="Load..." Click="Load_Click" />
+                <MenuItem Header="Save" Click="Save_Click" />
+                <MenuItem Header="Save As..." Click="SaveAs_Click" />
+                <MenuItem Header="Exit" Click="Exit_Click" />
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1">
             <TabItem Header="Persons">
                 <Grid Background="#FFE5E5E5">
                     <Controls:EntityTableControl x:Name="tablePersons"/>

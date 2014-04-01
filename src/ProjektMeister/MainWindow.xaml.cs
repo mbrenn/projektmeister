@@ -62,5 +62,26 @@ namespace ProjektMeister
             this.tableTasks.DetailViewInfo = Database.Views.TaskDetail;
             this.tableTasks.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task);
         }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveAs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }
