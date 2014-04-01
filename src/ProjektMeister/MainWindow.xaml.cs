@@ -52,8 +52,7 @@ namespace ProjektMeister
             person.set("phone", "0151/650");
             person.set("title", "Project Support");
 
-            // Initializes the views
-
+            // Initializes the views            
             this.tablePersons.Extent = database.ProjectExtent;
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
             this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
