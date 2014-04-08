@@ -23,7 +23,7 @@ namespace ProjektMeister.Data
         /// <summary>
         /// Stores the uri for new instances
         /// </summary>
-        private const string uri = "datenmeister:///projektmeister/data";
+        public const string uri = "datenmeister:///projektmeister/data";
 
         /// <summary>
         /// Stores the uri for the types and other general information
@@ -71,14 +71,18 @@ namespace ProjektMeister.Data
         {
             var dataDocument = new XDocument(new XElement("data"));
             var projectExtent = new XmlExtent(dataDocument, uri);
-            projectExtent.SkipRootNode = true;
+            var xmlSettings = new XmlSettings();
+            xmlSettings.SkipRootNode = true;
+            xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
+            xmlSettings.Mapping.Add("task", Types.Person, (x) => x.Elements("data").Elements("tasks").First());
+
+            projectExtent.Settings = xmlSettings;
+            
             this.pool.Add(this.projectExtent, null, "ProjektMeister");
 
             var xmlPersons = new XElement("persons");
             var xmlTasks = new XElement("tasks");
 
-            projectExtent.Mapping.Add("person", Types.Person, xmlPersons);
-            projectExtent.Mapping.Add("task", Types.Task, xmlTasks);
             dataDocument.Root.Add(xmlPersons);
             dataDocument.Root.Add(xmlTasks);
 
@@ -202,6 +206,15 @@ namespace ProjektMeister.Data
                 get;
                 internal set;
             }
+        }
+
+        /// <summary>
+        /// Replaces the data database
+        /// </summary>
+        /// <param name="extent">Xml Extent being stored</param>
+        internal void ReplaceDatabase(XmlExtent extent)
+        {
+            throw new NotImplementedException();
         }
     }
 }

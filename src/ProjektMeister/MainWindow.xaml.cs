@@ -1,4 +1,6 @@
-﻿using ProjektMeister.Data;
+﻿using BurnSystems.Test;
+using DatenMeister.DataProvider.Xml;
+using ProjektMeister.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace ProjektMeister
 {
@@ -21,6 +24,11 @@ namespace ProjektMeister
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Stores the current path
+        /// </summary>
+        private string currentPath = null;
+
         /// <summary>
         /// Stores the database to be used for the project
         /// </summary>
@@ -37,7 +45,7 @@ namespace ProjektMeister
             var fieldInfoTypes = DatenMeister.Entities.AsObject.FieldInfo.Types.Init();
 
             // Initializes the database itself
-            database.Init();
+            this.database.Init();
 
             // Create some persons
             var person = database.ProjectExtent.CreateObject(Database.Types.Person);
@@ -52,8 +60,8 @@ namespace ProjektMeister
             person.set("phone", "0151/650");
             person.set("title", "Project Support");
 
-            // Initializes the views            
-            this.tablePersons.Extent = database.ProjectExtent;
+            // Initializes the views
+            this.tablePersons.Extent = this.database.ProjectExtent;
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
             this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
             this.tablePersons.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person);
@@ -65,22 +73,53 @@ namespace ProjektMeister
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-
+            var dialog = new Microsoft.Win32.OpenFileDialog();
+            if (dialog.ShowDialog(this) == true)
+            {
+                var loadedFile = XDocument.Load(dialog.FileName);
+                var extent = new XmlExtent(loadedFile, Database.uri);
+                this.database.ReplaceDatabase(extent);
+            }
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
+            if (this.currentPath == null)
+            {
+                this.SaveAs_Click(sender, e);
+                return;
+            }
         }
 
         private void SaveAs_Click(object sender, RoutedEventArgs e)
         {
 
+            var dialog = new Microsoft.Win32.SaveFileDialog();
+            if (dialog.ShowDialog(this) == true)
+            {
+                var xmlExtent = (this.database.ProjectExtent) as XmlExtent;
+                Ensure.That(xmlExtent != null);
+
+                // Stores the xml document
+                xmlExtent.XmlDocument.Save(dialog.FileName);
+            }
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBox.Show(
+                this, 
+                Localization_ProjektMeister.ChangesMayBeLost, 
+                Localization_ProjektMeister.CloseApplication, 
+                MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
     }
