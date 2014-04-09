@@ -41,6 +41,11 @@ namespace ProjektMeister.Data
         private DatenMeisterPool pool;
 
         /// <summary>
+        /// Stores the xmlsettings being used for 
+        /// </summary>
+        private XmlSettings xmlSettings;
+
+        /// <summary>
         /// The extent, which is used by the ProjektMeister
         /// </summary>
         private IURIExtent projectExtent;
@@ -71,10 +76,10 @@ namespace ProjektMeister.Data
         {
             var dataDocument = new XDocument(new XElement("data"));
             var projectExtent = new XmlExtent(dataDocument, uri);
-            var xmlSettings = new XmlSettings();
-            xmlSettings.SkipRootNode = true;
-            xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
-            xmlSettings.Mapping.Add("task", Types.Person, (x) => x.Elements("data").Elements("tasks").First());
+            this.xmlSettings = new XmlSettings();
+            this.xmlSettings.SkipRootNode = true;
+            this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
+            this.xmlSettings.Mapping.Add("task", Types.Person, (x) => x.Elements("data").Elements("tasks").First());
 
             projectExtent.Settings = xmlSettings;
             
@@ -214,7 +219,16 @@ namespace ProjektMeister.Data
         /// <param name="extent">Xml Extent being stored</param>
         internal void ReplaceDatabase(XmlExtent extent)
         {
-            throw new NotImplementedException();
+            extent.Settings = this.xmlSettings;
+            this.projectExtent = extent;
+
+            foreach (var mapping in this.xmlSettings.Mapping.GetAll())
+            {
+                if ( mapping.RetrieveRootNode(extent.XmlDocument) == null )
+                {
+                    throw new InvalidOperationException("Given extent is not compatible to ProjektMeister");
+                }
+            }
         }
     }
 }

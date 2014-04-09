@@ -61,11 +61,11 @@ namespace ProjektMeister
             person.set("title", "Project Support");
 
             // Initializes the views
-            this.tablePersons.Extent = this.database.ProjectExtent;
+            this.tablePersons.ExtentFactory = () => this.database.ProjectExtent;
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
             this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
             this.tablePersons.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person);
-            this.tableTasks.Extent = database.ProjectExtent;
+            this.tableTasks.ExtentFactory = () => this.database.ProjectExtent;
             this.tableTasks.TableViewInfo = Database.Views.TaskTable;
             this.tableTasks.DetailViewInfo = Database.Views.TaskDetail;
             this.tableTasks.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task);
@@ -79,6 +79,9 @@ namespace ProjektMeister
                 var loadedFile = XDocument.Load(dialog.FileName);
                 var extent = new XmlExtent(loadedFile, Database.uri);
                 this.database.ReplaceDatabase(extent);
+
+                this.tablePersons.RefreshItems();
+                this.tableTasks.RefreshItems();
             }
         }
 
