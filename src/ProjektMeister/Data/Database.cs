@@ -79,7 +79,7 @@ namespace ProjektMeister.Data
             this.xmlSettings = new XmlSettings();
             this.xmlSettings.SkipRootNode = true;
             this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
-            this.xmlSettings.Mapping.Add("task", Types.Person, (x) => x.Elements("data").Elements("tasks").First());
+            this.xmlSettings.Mapping.Add("task", Types.Task, (x) => x.Elements("data").Elements("tasks").First());
 
             projectExtent.Settings = xmlSettings;
             
@@ -150,7 +150,7 @@ namespace ProjektMeister.Data
                 new TextField("Name", "name"),
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
-                new TextField("Finished", "bool"));
+                new TextField("Finished", "finished"));
             Views.TaskTable.set("fieldInfos", taskColumns);
 
             // Detail view for persons
@@ -162,7 +162,7 @@ namespace ProjektMeister.Data
                 new TextField("Name", "name"),
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
-                new TextField("Finished", "bool"));
+                new Checkbox("Finished", "finished"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             this.pool.Add(viewExtent, null, "ProjektMeister Views");

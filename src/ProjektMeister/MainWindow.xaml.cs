@@ -60,6 +60,12 @@ namespace ProjektMeister
             person.set("phone", "0151/650");
             person.set("title", "Project Support");
 
+            person = database.ProjectExtent.CreateObject(Database.Types.Task);
+            person.set("name", "My First Task");
+            person.set("startdate", DateTime.Now);
+            person.set("enddate", DateTime.Now.AddYears(1));
+            person.set("finished", false);
+
             // Initializes the views
             this.tablePersons.ExtentFactory = () => this.database.ProjectExtent;
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
