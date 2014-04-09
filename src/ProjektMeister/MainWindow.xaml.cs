@@ -1,5 +1,6 @@
 ﻿using BurnSystems.Test;
 using DatenMeister.DataProvider.Xml;
+using DatenMeister.Transformations;
 using ProjektMeister.Data;
 using System;
 using System.Collections.Generic;
@@ -67,11 +68,11 @@ namespace ProjektMeister
             person.set("finished", false);
 
             // Initializes the views
-            this.tablePersons.ExtentFactory = () => this.database.ProjectExtent;
+            this.tablePersons.ExtentFactory = () => this.database.ProjectExtent.FilterByType(Database.Types.Person);
             this.tablePersons.TableViewInfo = Database.Views.PersonTable;
             this.tablePersons.DetailViewInfo = Database.Views.PersonDetail;
             this.tablePersons.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person);
-            this.tableTasks.ExtentFactory = () => this.database.ProjectExtent;
+            this.tableTasks.ExtentFactory = () => this.database.ProjectExtent.FilterByType(Database.Types.Task);
             this.tableTasks.TableViewInfo = Database.Views.TaskTable;
             this.tableTasks.DetailViewInfo = Database.Views.TaskDetail;
             this.tableTasks.ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task);
