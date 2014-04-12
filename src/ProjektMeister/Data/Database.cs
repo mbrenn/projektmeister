@@ -75,15 +75,15 @@ namespace ProjektMeister.Data
         private void InitDatabase()
         {
             var dataDocument = new XDocument(new XElement("data"));
-            var projectExtent = new XmlExtent(dataDocument, uri);
+            var xmlProjectExtent = new XmlExtent(dataDocument, uri);
             this.xmlSettings = new XmlSettings();
             this.xmlSettings.SkipRootNode = true;
             this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
             this.xmlSettings.Mapping.Add("task", Types.Task, (x) => x.Elements("data").Elements("tasks").First());
 
-            projectExtent.Settings = xmlSettings;
-            
-            this.pool.Add(this.projectExtent, null, "ProjektMeister");
+            xmlProjectExtent.Settings = xmlSettings;
+
+            this.pool.Add(xmlProjectExtent, null, "ProjektMeister");
 
             var xmlPersons = new XElement("persons");
             var xmlTasks = new XElement("tasks");
@@ -91,7 +91,7 @@ namespace ProjektMeister.Data
             dataDocument.Root.Add(xmlPersons);
             dataDocument.Root.Add(xmlTasks);
 
-            this.projectExtent = projectExtent;
+            this.projectExtent = xmlProjectExtent;
         }
 
         private void InitTypes()
