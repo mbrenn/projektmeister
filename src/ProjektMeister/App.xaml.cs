@@ -18,6 +18,9 @@ namespace ProjektMeister
         {
             Global.InitForApplication();
             base.OnStartup(e);
+
+            var window = new MainWindow();
+            window.Start();
         }
     }
 }
