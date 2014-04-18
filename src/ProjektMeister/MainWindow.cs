@@ -27,6 +27,8 @@ namespace ProjektMeister
 
             // Initializes the database itself
             database.Init();
+            wnd.ProjectExtent = database.ProjectExtent;
+            wnd.ExtentSettings = database.Settings;
 
             // Create some persons
             var person = database.ProjectExtent.CreateObject(Database.Types.Person);
@@ -48,11 +50,10 @@ namespace ProjektMeister
             person.set("finished", false);
 
             // Initializes the views
-
             wnd.AddExtent("Persons",
                 new AddExtentParameters()
                 {
-                    ExtentFactory = () => database.ProjectExtent.FilterByType(Database.Types.Person),
+                    ExtentFactory = (x) => x.FilterByType(Database.Types.Person),
                     TableViewInfo = Database.Views.PersonTable,
                     DetailViewInfo = Database.Views.PersonDetail,
                     ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person)
@@ -61,7 +62,7 @@ namespace ProjektMeister
             wnd.AddExtent("Tasks",
                 new AddExtentParameters()
                 {
-                    ExtentFactory = () => database.ProjectExtent.FilterByType(Database.Types.Task),
+                    ExtentFactory = (x) => x.FilterByType(Database.Types.Task),
                     TableViewInfo = Database.Views.TaskTable,
                     DetailViewInfo = Database.Views.TaskDetail,
                     ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task)

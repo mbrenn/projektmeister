@@ -61,6 +61,14 @@ namespace ProjektMeister.Data
         }
 
         /// <summary>
+        /// Gets the settings of the xml file
+        /// </summary>
+        public XmlSettings Settings
+        {
+            get { return this.xmlSettings; }
+        }
+
+        /// <summary>
         /// Initializes a new instance of the the database
         /// </summary>
         public void Init()
@@ -224,7 +232,7 @@ namespace ProjektMeister.Data
 
             foreach (var mapping in this.xmlSettings.Mapping.GetAll())
             {
-                if ( mapping.RetrieveRootNode(extent.XmlDocument) == null )
+                if (mapping.RetrieveRootNode(extent.XmlDocument) == null)
                 {
                     throw new InvalidOperationException("Given extent is not compatible to ProjektMeister");
                 }
