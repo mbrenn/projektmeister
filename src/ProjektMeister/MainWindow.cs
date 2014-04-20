@@ -30,7 +30,7 @@ namespace ProjektMeister
             wnd.ProjectExtent = database.ProjectExtent;
             wnd.ExtentSettings = database.Settings;
 
-            // Create some persons
+            // Create some persons, just for test
             var person = database.ProjectExtent.CreateObject(Database.Types.Person);
             person.set("name", "Martin Brenn");
             person.set("email", "brenn@depon.net");
@@ -67,6 +67,9 @@ namespace ProjektMeister
                     DetailViewInfo = Database.Views.TaskDetail,
                     ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task)
                 });
+
+            // Reset dirty flag
+            database.ProjectExtent.IsDirty = false;
         }
     }
 }
