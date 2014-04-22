@@ -158,7 +158,8 @@ namespace ProjektMeister.Data
                 new TextField("Name", "name"),
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
-                new TextField("Finished", "finished"));
+                new TextField("Finished", "finished"),
+                new TextField("Assigned", "assignedPerson"));
             Views.TaskTable.set("fieldInfos", taskColumns);
 
             // Detail view for persons
@@ -170,7 +171,8 @@ namespace ProjektMeister.Data
                 new TextField("Name", "name"),
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
-                new Checkbox("Finished", "finished"));
+                new Checkbox("Finished", "finished"),
+                new ReferenceByValue("Assigned", "assignedPerson", uri + "?type=Person", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             this.pool.Add(viewExtent, null, "ProjektMeister Views");
