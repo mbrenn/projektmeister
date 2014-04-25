@@ -172,7 +172,7 @@ namespace ProjektMeister.Data
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
-                new ReferenceByValue("Assigned", "assignedPerson", uri + "?type=Person", "name"));
+                new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             this.pool.Add(viewExtent, null, "ProjektMeister Views");
