@@ -86,18 +86,23 @@ namespace ProjektMeister.Data
             var xmlProjectExtent = new XmlExtent(dataDocument, uri);
             this.xmlSettings = new XmlSettings();
             this.xmlSettings.SkipRootNode = true;
-            this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements("data").Elements("persons").First());
-            this.xmlSettings.Mapping.Add("task", Types.Task, (x) => x.Elements("data").Elements("tasks").First());
+            this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements().Elements("persons").First());
+            this.xmlSettings.Mapping.Add("task", Types.Task, (x) => x.Elements().Elements("tasks").First());
 
             xmlProjectExtent.Settings = xmlSettings;
 
             this.pool.Add(xmlProjectExtent, null, "ProjektMeister");
 
-            var xmlPersons = new XElement("persons");
-            var xmlTasks = new XElement("tasks");
+            xmlProjectExtent.Settings.InitDatabaseFunction = (x) =>
+                {
+                    var xmlPersons = new XElement("persons");
+                    var xmlTasks = new XElement("tasks");
 
-            dataDocument.Root.Add(xmlPersons);
-            dataDocument.Root.Add(xmlTasks);
+                    x.Root.Add(xmlPersons);
+                    x.Root.Add(xmlTasks);
+                };
+
+            xmlProjectExtent.Settings.InitDatabaseFunction(dataDocument);
 
             this.projectExtent = xmlProjectExtent;
         }
