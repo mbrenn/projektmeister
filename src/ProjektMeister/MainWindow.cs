@@ -17,6 +17,7 @@ namespace ProjektMeister
         {
             var wnd = new DatenMeisterWindow();
             this.InitializeDatabase(wnd);
+            wnd.SetTitle("Depon.Net ProjektMeister");
             wnd.Show();
         }
 
