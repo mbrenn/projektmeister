@@ -68,6 +68,11 @@ namespace ProjektMeister.Data
             get { return this.xmlSettings; }
         }
 
+        public DatenMeisterPool Pool
+        {
+            get { return this.pool; }
+        }
+
         /// <summary>
         /// Initializes a new instance of the the database
         /// </summary>
@@ -80,9 +85,12 @@ namespace ProjektMeister.Data
             this.InitViews();
         }
 
+        /// <summary>
+        /// Initializes the database
+        /// </summary>
         private void InitDatabase()
         {
-            var dataDocument = new XDocument(new XElement("data"));
+            var dataDocument = new XDocument();
             var xmlProjectExtent = new XmlExtent(dataDocument, uri);
             this.xmlSettings = new XmlSettings();
             this.xmlSettings.SkipRootNode = true;
@@ -95,16 +103,26 @@ namespace ProjektMeister.Data
 
             xmlProjectExtent.Settings.InitDatabaseFunction = (x) =>
                 {
-                    var xmlPersons = new XElement("persons");
-                    var xmlTasks = new XElement("tasks");
-
-                    x.Root.Add(xmlPersons);
-                    x.Root.Add(xmlTasks);
+                    FillEmptyDocument(x);
                 };
 
             xmlProjectExtent.Settings.InitDatabaseFunction(dataDocument);
 
             this.projectExtent = xmlProjectExtent;
+        }
+
+        /// <summary>
+        /// Fills an empty document 
+        /// </summary>
+        /// <param name="document">Document being filled</param>
+        public static void FillEmptyDocument(XDocument document)
+        {
+            var xmlPersons = new XElement("persons");
+            var xmlTasks = new XElement("tasks");
+            document.Add(new XElement("data"));
+
+            document.Root.Add(xmlPersons);
+            document.Root.Add(xmlTasks);
         }
 
         private void InitTypes()

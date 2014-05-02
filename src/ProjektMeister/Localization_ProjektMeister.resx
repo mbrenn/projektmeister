@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ChangesMayBeLost" xml:space="preserve">
-    <value>Changes of extent may be lost. Shall closing of application continue?</value>
+    <value>Changes of extent may be lost. Shall planned action continue?</value>
   </data>
   <data name="CloseApplication" xml:space="preserve">
     <value>Close Application</value>

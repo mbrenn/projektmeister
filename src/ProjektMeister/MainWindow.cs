@@ -1,4 +1,5 @@
-﻿using DatenMeister.Transformations;
+﻿using DatenMeister;
+using DatenMeister.Transformations;
 using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
 using System;
@@ -6,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace ProjektMeister 
 {
-    public class MainWindow
+    public class MainWindow : BaseDatenMeisterSeetings, IDatenMeisterSettings
     {
         public void Start()
         {
@@ -27,8 +29,10 @@ namespace ProjektMeister
 
             // Initializes the database itself
             database.Init();
-            wnd.ProjectExtent = database.ProjectExtent;
-            wnd.ExtentSettings = database.Settings;
+            this.Pool = database.Pool;
+            this.ProjectExtent = database.ProjectExtent;
+            this.ExtentSettings = database.Settings;
+            wnd.Settings = this;
 
             // Create some persons, just for test
             var person = database.ProjectExtent.CreateObject(Database.Types.Person);
@@ -50,26 +54,37 @@ namespace ProjektMeister
             person.set("finished", false);
 
             // Initializes the views
-            wnd.AddExtent("Persons",
+            wnd.AddExtentView("Persons",
                 new AddExtentParameters()
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Person),
                     TableViewInfo = Database.Views.PersonTable,
                     DetailViewInfo = Database.Views.PersonDetail,
-                    ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Person)
+                    ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Person)
                 });
 
-            wnd.AddExtent("Tasks",
+            wnd.AddExtentView("Tasks",
                 new AddExtentParameters()
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Task),
                     TableViewInfo = Database.Views.TaskTable,
                     DetailViewInfo = Database.Views.TaskDetail,
-                    ElementFactory = () => database.ProjectExtent.CreateObject(Database.Types.Task)
+                    ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Task)
                 });
 
             // Reset dirty flag
             database.ProjectExtent.IsDirty = false;
+        }
+
+        /// <summary>
+        /// Creates an empty document
+        /// </summary>
+        /// <returns>Document, being empty</returns>
+        public override XDocument CreateEmpty()
+        {
+            var document = new XDocument();
+            Database.FillEmptyDocument(document);
+            return document;
         }
     }
 }
