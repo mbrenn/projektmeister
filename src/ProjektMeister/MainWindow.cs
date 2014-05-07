@@ -1,4 +1,6 @@
-﻿using DatenMeister;
+﻿using BurnSystems.ObjectActivation;
+using DatenMeister;
+using DatenMeister.Logic.Views;
 using DatenMeister.Transformations;
 using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
@@ -13,14 +15,23 @@ namespace ProjektMeister
 {
     public class MainWindow : BaseDatenMeisterSeetings, IDatenMeisterSettings
     {
+        /// <summary>
+        /// Starts the ProjektMeister
+        /// </summary>
         public void Start()
         {
             var wnd = new DatenMeisterWindow();
             this.InitializeDatabase(wnd);
+
+            // Just sets the title and shows the Window
             wnd.SetTitle("Depon.Net ProjektMeister");
             wnd.Show();
         }
 
+        /// <summary>
+        /// Initializes the database
+        /// </summary>
+        /// <param name="wnd">Window to be used</param>
         private void InitializeDatabase(IDatenMeisterWindow wnd)
         {
             var database = new Database();
@@ -60,7 +71,6 @@ namespace ProjektMeister
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Person),
                     TableViewInfo = Database.Views.PersonTable,
-                    DetailViewInfo = Database.Views.PersonDetail,
                     ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Person)
                 });
 
@@ -69,12 +79,18 @@ namespace ProjektMeister
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Task),
                     TableViewInfo = Database.Views.TaskTable,
-                    DetailViewInfo = Database.Views.TaskDetail,
                     ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Task)
                 });
 
             // Reset dirty flag
             database.ProjectExtent.IsDirty = false;
+
+            // Initialize the activation container
+            var viewManager = new DefaultViewManager();
+            viewManager.Add(Database.Types.Person, Database.Views.PersonDetail, true);
+            viewManager.Add(Database.Types.Task, Database.Views.TaskDetail, true);
+
+            Global.Application.Bind<IViewManager>().ToConstant(viewManager);
         }
 
         /// <summary>

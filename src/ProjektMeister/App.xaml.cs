@@ -16,7 +16,6 @@ namespace ProjektMeister
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            Global.InitForApplication();
             base.OnStartup(e);
 
             var window = new MainWindow();
