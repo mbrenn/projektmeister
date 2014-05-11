@@ -46,24 +46,27 @@ namespace ProjektMeister
             this.ExtentSettings = database.Settings;
             wnd.Settings = this;
 
-            // Create some persons, just for test
-            var person = database.ProjectExtent.CreateObject(Database.Types.Person);
-            person.set("name", "Martin Brenn");
-            person.set("email", "brenn@depon.net");
-            person.set("phone", "0151/560");
-            person.set("title", "Project Lead");
+            for (var n = 0; n < 1; n++)
+            {
+                // Create some persons, just for test
+                var person = database.ProjectExtent.CreateObject(Database.Types.Person);
+                person.set("name", "Martin Brenn");
+                person.set("email", "brenn@depon.net");
+                person.set("phone", "0151/560");
+                person.set("title", "Project Lead");
 
-            person = database.ProjectExtent.CreateObject(Database.Types.Person);
-            person.set("name", "Martina Brenn");
-            person.set("email", "brenna@depon.net");
-            person.set("phone", "0151/650");
-            person.set("title", "Project Support");
+                person = database.ProjectExtent.CreateObject(Database.Types.Person);
+                person.set("name", "Martina Brenn");
+                person.set("email", "brenna@depon.net");
+                person.set("phone", "0151/650");
+                person.set("title", "Project Support");
 
-            person = database.ProjectExtent.CreateObject(Database.Types.Task);
-            person.set("name", "My First Task");
-            person.set("startdate", DateTime.Now);
-            person.set("enddate", DateTime.Now.AddYears(1));
-            person.set("finished", false);
+                person = database.ProjectExtent.CreateObject(Database.Types.Task);
+                person.set("name", "My First Task");
+                person.set("startdate", DateTime.Now);
+                person.set("enddate", DateTime.Now.AddYears(1));
+                person.set("finished", false);
+            }
 
             // Initializes the views
             wnd.AddExtentView("Persons",
@@ -71,7 +74,7 @@ namespace ProjektMeister
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Person),
                     TableViewInfo = Database.Views.PersonTable,
-                    ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Person)
+                    MainType = Database.Types.Person
                 });
 
             wnd.AddExtentView("Tasks",
@@ -79,7 +82,7 @@ namespace ProjektMeister
                 {
                     ExtentFactory = (x) => x.FilterByType(Database.Types.Task),
                     TableViewInfo = Database.Views.TaskTable,
-                    ElementFactory = () => wnd.Settings.ProjectExtent.CreateObject(Database.Types.Task)
+                    MainType = Database.Types.Task
                 });
 
             // Reset dirty flag
