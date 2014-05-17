@@ -1,6 +1,7 @@
 ﻿using BurnSystems.ObjectActivation;
 using DatenMeister;
 using DatenMeister.Logic.Views;
+using DatenMeister.Pool;
 using DatenMeister.Transformations;
 using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
@@ -94,6 +95,9 @@ namespace ProjektMeister
             viewManager.Add(Database.Types.Task, Database.Views.TaskDetail, true);
 
             Global.Application.Bind<IViewManager>().ToConstant(viewManager);
+
+            // Initializes the default resolver
+            this.Pool.DoDefaultBinding();
         }
 
         /// <summary>
