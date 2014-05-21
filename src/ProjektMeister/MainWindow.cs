@@ -14,7 +14,7 @@ using System.Xml.Linq;
 
 namespace ProjektMeister 
 {
-    public class MainWindow : BaseDatenMeisterSeetings, IDatenMeisterSettings
+    public class MainWindow : BaseDatenMeisterSettings, IDatenMeisterSettings
     {
         /// <summary>
         /// Starts the ProjektMeister
@@ -27,6 +27,7 @@ namespace ProjektMeister
             // Just sets the title and shows the Window
             wnd.SetTitle("Depon.Net ProjektMeister");
             wnd.Show();
+            wnd.RefreshViews();
         }
 
         /// <summary>
@@ -45,6 +46,7 @@ namespace ProjektMeister
             this.Pool = database.Pool;
             this.ProjectExtent = database.ProjectExtent;
             this.ExtentSettings = database.Settings;
+            this.ViewExtent = database.ViewExtent; // Here, the views are initialized
             wnd.Settings = this;
 
             for (var n = 0; n < 1; n++)
@@ -68,23 +70,6 @@ namespace ProjektMeister
                 person.set("enddate", DateTime.Now.AddYears(1));
                 person.set("finished", false);
             }
-
-            // Initializes the views
-            wnd.AddExtentView("Persons",
-                new AddExtentParameters()
-                {
-                    ExtentFactory = (x) => x.FilterByType(Database.Types.Person),
-                    TableViewInfo = Database.Views.PersonTable,
-                    MainType = Database.Types.Person
-                });
-
-            wnd.AddExtentView("Tasks",
-                new AddExtentParameters()
-                {
-                    ExtentFactory = (x) => x.FilterByType(Database.Types.Task),
-                    TableViewInfo = Database.Views.TaskTable,
-                    MainType = Database.Types.Task
-                });
 
             // Reset dirty flag
             database.ProjectExtent.IsDirty = false;
