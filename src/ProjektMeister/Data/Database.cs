@@ -85,6 +85,7 @@ namespace ProjektMeister.Data
         public void Init()
         {
             this.pool = new DatenMeisterPool();
+            this.pool.DoDefaultBinding();
 
             this.InitTypes();
             this.InitDatabase();
@@ -141,11 +142,12 @@ namespace ProjektMeister.Data
             this.pool.Add(this.typeExtent, null, "ProjektMeister Types");
 
             // Creates the types
-            Types.Person = typeExtent.CreateObject();
+            var typeFactory = Factory.GetFor(this.typeExtent);
+            Types.Person = typeFactory.CreateInExtent(typeExtent);
             var person = new DatenMeister.Entities.AsObject.Uml.Type(Types.Person);
             person.setName("Person");
 
-            Types.Task = typeExtent.CreateObject();
+            Types.Task = typeFactory.CreateInExtent(typeExtent);
             var task = new DatenMeister.Entities.AsObject.Uml.Type(Types.Task);
             task.setName("Task");
         }
@@ -159,7 +161,7 @@ namespace ProjektMeister.Data
             // List view for persons
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = new DotNetObject(this.ViewExtent, personTableView);
-            this.ViewExtent.Add(Views.PersonTable);
+            this.ViewExtent.Elements().add(Views.PersonTable);
             var asObjectPersons = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.PersonTable);
 
             var personColumns = new DotNetSequence(
@@ -175,7 +177,7 @@ namespace ProjektMeister.Data
             // Detail view for persons
             var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.PersonDetail = new DotNetObject(this.ViewExtent, personDetailView);
-            this.ViewExtent.Add(Views.PersonDetail);
+            this.ViewExtent.Elements().add(Views.PersonDetail);
             Views.PersonDetail.set("name", "Person (Detail)");
 
             var personDetailColumns = new DotNetSequence(
@@ -189,7 +191,7 @@ namespace ProjektMeister.Data
             // List view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = new DotNetObject(this.ViewExtent, taskTableView);
-            this.ViewExtent.Add(Views.TaskTable);
+            this.ViewExtent.Elements().add(Views.TaskTable);
             var asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
 
             var taskColumns = new DotNetSequence(
@@ -207,7 +209,7 @@ namespace ProjektMeister.Data
             var taskDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.TaskDetail = new DotNetObject(this.ViewExtent, taskDetailView);
             Views.TaskDetail.set("name", "Person (Detail)");
-            this.ViewExtent.Add(Views.TaskDetail);
+            this.ViewExtent.Elements().add(Views.TaskDetail);
 
             var taskDetailColumns = new DotNetSequence(
                 new TextField("Name", "name"),

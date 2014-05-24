@@ -1,5 +1,6 @@
 ﻿using BurnSystems.ObjectActivation;
 using DatenMeister;
+using DatenMeister.DataProvider;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
@@ -52,19 +53,20 @@ namespace ProjektMeister
             for (var n = 0; n < 1; n++)
             {
                 // Create some persons, just for test
-                var person = database.ProjectExtent.CreateObject(Database.Types.Person);
+                var factory = Factory.GetFor(database.ProjectExtent);
+                var person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Person);
                 person.set("name", "Martin Brenn");
                 person.set("email", "brenn@depon.net");
                 person.set("phone", "0151/560");
                 person.set("title", "Project Lead");
 
-                person = database.ProjectExtent.CreateObject(Database.Types.Person);
+                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Person);
                 person.set("name", "Martina Brenn");
                 person.set("email", "brenna@depon.net");
                 person.set("phone", "0151/650");
                 person.set("title", "Project Support");
 
-                person = database.ProjectExtent.CreateObject(Database.Types.Task);
+                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Task);
                 person.set("name", "My First Task");
                 person.set("startdate", DateTime.Now);
                 person.set("enddate", DateTime.Now.AddYears(1));
@@ -80,9 +82,6 @@ namespace ProjektMeister
             viewManager.Add(Database.Types.Task, Database.Views.TaskDetail, true);
 
             Global.Application.Bind<IViewManager>().ToConstant(viewManager);
-
-            // Initializes the default resolver
-            this.Pool.DoDefaultBinding();
         }
 
         /// <summary>
