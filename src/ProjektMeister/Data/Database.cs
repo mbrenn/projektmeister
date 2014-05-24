@@ -4,6 +4,7 @@ using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Views;
 using DatenMeister.DataProvider.Xml;
 using DatenMeister.Entities.FieldInfos;
+using DatenMeister.Logic;
 using DatenMeister.Logic.Views;
 using ProjektMeister.Data.Entities;
 using System;
@@ -86,6 +87,10 @@ namespace ProjektMeister.Data
         {
             this.pool = new DatenMeisterPool();
             this.pool.DoDefaultBinding();
+
+            // Adds the extent for the extents
+            var poolExtent = new DatenMeisterPoolExtent(this.pool);
+            this.pool.Add(poolExtent, null, DatenMeisterPoolExtent.DefaultName);
 
             this.InitTypes();
             this.InitDatabase();
@@ -219,6 +224,10 @@ namespace ProjektMeister.Data
                 new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
+            // Creates the view for the extents
+            DatenMeisterPoolExtent.AddView(this.ViewExtent);
+
+            // Adds the extent of views to the pool
             this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
         }
 
