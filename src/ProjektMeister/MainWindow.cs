@@ -1,9 +1,11 @@
 ﻿using BurnSystems.ObjectActivation;
 using DatenMeister;
+using DatenMeister.AddOns.Export.Excel;
 using DatenMeister.DataProvider;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
+using DatenMeister.WPF.Helper;
 using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
 using System;
@@ -11,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Xml.Linq;
 
 namespace ProjektMeister 
@@ -23,19 +27,25 @@ namespace ProjektMeister
         public void Start()
         {
             var wnd = new DatenMeisterWindow();
-            this.InitializeDatabase(wnd);
+            var database = this.InitializeDatabase(wnd);
 
             // Just sets the title and shows the Window
             wnd.SetTitle("Depon.Net ProjektMeister");
             wnd.Show();
-            wnd.RefreshViews();
+            wnd.RefreshTab();
+
+            // Other menu helper
+            MenuHelper.AddExtentView(wnd, database.ViewExtent);
+
+            // Exports the entry to an excel item
+            ExcelExportGui.AddMenu(wnd, () => this.ProjectExtent);
         }
 
         /// <summary>
         /// Initializes the database
         /// </summary>
         /// <param name="wnd">Window to be used</param>
-        private void InitializeDatabase(IDatenMeisterWindow wnd)
+        private Database InitializeDatabase(IDatenMeisterWindow wnd)
         {
             var database = new Database();
 
@@ -77,11 +87,14 @@ namespace ProjektMeister
             database.ProjectExtent.IsDirty = false;
 
             // Initialize the activation container
-            var viewManager = new DefaultViewManager();
+            var viewManager = new DefaultViewManager(database.ViewExtent);
             viewManager.Add(Database.Types.Person, Database.Views.PersonDetail, true);
             viewManager.Add(Database.Types.Task, Database.Views.TaskDetail, true);
+            viewManager.DoAutogenerateForm = true;
 
             Global.Application.Bind<IViewManager>().ToConstant(viewManager);
+
+            return database;
         }
 
         /// <summary>

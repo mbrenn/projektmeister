@@ -59,6 +59,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\Database.cs" />
+    <Compile Include="Data\Entities\AsObject\PM.Objects.cs" />
+    <Compile Include="Data\Entities\AsObject\PM.Types.cs" />
     <Compile Include="Data\Entities\Person.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Localization_ProjektMeister.Designer.cs">
@@ -104,6 +106,10 @@
       <Project>{42023d16-afd1-4d99-bc39-9ef46982eb54}</Project>
       <Name>BurnSystems</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\datenmeister\src\DatenMeister.AddOns\DatenMeister.AddOns.csproj">
+      <Project>{c4672023-3e93-45eb-a797-7c144dff43fc}</Project>
+      <Name>DatenMeister.AddOns</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\datenmeister\src\DatenMeister.WPF\DatenMeister.WPF.csproj">
       <Project>{89161f62-500b-41b3-937e-e9850cf689af}</Project>
       <Name>DatenMeister.WPF</Name>
@@ -113,6 +119,7 @@
       <Name>DatenMeister</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

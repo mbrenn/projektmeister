@@ -224,9 +224,6 @@ namespace ProjektMeister.Data
                 new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
-            // Creates the view for the extents
-            DatenMeisterPoolExtent.AddView(this.ViewExtent);
-
             // Adds the extent of views to the pool
             this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
         }
