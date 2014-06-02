@@ -14,12 +14,27 @@ namespace ProjektMeister
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Stores the window for the application
+        /// </summary>
+        private MainWindow window;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            var window = new MainWindow();
-            window.Start();
+            this.window = new MainWindow();
+            this.window.Start();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (this.window != null)
+            {
+                this.window.Stop();
+            }
+
+            base.OnExit(e);
         }
     }
 }

@@ -10,6 +10,7 @@ using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,17 +23,28 @@ namespace ProjektMeister
     public class MainWindow : BaseDatenMeisterSettings, IDatenMeisterSettings
     {
         /// <summary>
+        /// Stores the applicatin core
+        /// </summary>
+        private ApplicationCore core;
+
+        /// <summary>
         /// Starts the ProjektMeister
         /// </summary>
         public void Start()
         {
-            var wnd = new DatenMeisterWindow();
-            var database = this.InitializeDatabase(wnd);
+            this.ApplicationName = "ProjektMeister";
+            this.WindowTitle = "Depon.Net - ProjektMeister";
 
-            // Just sets the title and shows the Window
-            wnd.SetTitle("Depon.Net ProjektMeister");
-            wnd.Show();
-            wnd.RefreshTab();
+            // Initializes the types
+            var umlTypes = DatenMeister.Entities.AsObject.Uml.Types.Init();
+            var fieldInfoTypes = DatenMeister.Entities.AsObject.FieldInfo.Types.Init();
+            var dmTypes = DatenMeister.Entities.AsObject.DM.Types.Init();
+
+            // Start the application
+            var database = this.InitializeDatabase();
+            this.core = new ApplicationCore(this);
+
+            var wnd = this.core.CreateWindow();
 
             // Other menu helper
             MenuHelper.AddExtentView(wnd, database.ViewExtent);
@@ -41,16 +53,21 @@ namespace ProjektMeister
             ExcelExportGui.AddMenu(wnd, () => this.ProjectExtent);
         }
 
+        public void Stop()
+        {
+            if (this.core != null)
+            {
+                this.core.Dispose();
+            }
+        }
+
         /// <summary>
         /// Initializes the database
         /// </summary>
         /// <param name="wnd">Window to be used</param>
-        private Database InitializeDatabase(IDatenMeisterWindow wnd)
+        private Database InitializeDatabase()
         {
             var database = new Database();
-
-            var umlTypes = DatenMeister.Entities.AsObject.Uml.Types.Init();
-            var fieldInfoTypes = DatenMeister.Entities.AsObject.FieldInfo.Types.Init();
 
             // Initializes the database itself
             database.Init();
@@ -58,7 +75,6 @@ namespace ProjektMeister
             this.ProjectExtent = database.ProjectExtent;
             this.ExtentSettings = database.Settings;
             this.ViewExtent = database.ViewExtent; // Here, the views are initialized
-            wnd.Settings = this;
 
             for (var n = 0; n < 1; n++)
             {
