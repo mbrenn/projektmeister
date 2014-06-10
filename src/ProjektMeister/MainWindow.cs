@@ -1,6 +1,7 @@
 ﻿using BurnSystems.ObjectActivation;
 using DatenMeister;
 using DatenMeister.AddOns.Export.Excel;
+//using DatenMeister.AddOns.Views;
 using DatenMeister.DataProvider;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
@@ -51,6 +52,8 @@ namespace ProjektMeister
 
             // Exports the entry to an excel item
             ExcelExportGui.AddMenu(wnd, () => this.ProjectExtent);
+
+            //TypeManager.Integrate(wnd);
         }
 
         public void Stop()
