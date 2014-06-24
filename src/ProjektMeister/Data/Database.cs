@@ -52,9 +52,13 @@ namespace ProjektMeister.Data
         private IURIExtent projectExtent;
 
         /// <summary>
-        /// The extent, which is used by the ProjektMeister
+        /// Gets or sets the type extent
         /// </summary>
-        private IURIExtent typeExtent;
+        public IURIExtent TypeExtent
+        {
+            get;
+            set;
+        }
 
         public IURIExtent ProjectExtent
         {
@@ -143,16 +147,16 @@ namespace ProjektMeister.Data
         private void InitTypes()
         {
             var typeDocument = new XDocument(new XElement("types"));
-            this.typeExtent = new XmlExtent(typeDocument, typeUri);
-            this.pool.Add(this.typeExtent, null, "ProjektMeister Types");
+            this.TypeExtent = new XmlExtent(typeDocument, typeUri);
+            this.pool.Add(this.TypeExtent, null, "ProjektMeister Types");
 
             // Creates the types
-            var typeFactory = Factory.GetFor(this.typeExtent);
-            Types.Person = typeFactory.CreateInExtent(typeExtent);
+            var typeFactory = Factory.GetFor(this.TypeExtent);
+            Types.Person = typeFactory.CreateInExtent(this.TypeExtent);
             var person = new DatenMeister.Entities.AsObject.Uml.Type(Types.Person);
             person.setName("Person");
 
-            Types.Task = typeFactory.CreateInExtent(typeExtent);
+            Types.Task = typeFactory.CreateInExtent(this.TypeExtent);
             var task = new DatenMeister.Entities.AsObject.Uml.Type(Types.Task);
             task.setName("Task");
         }

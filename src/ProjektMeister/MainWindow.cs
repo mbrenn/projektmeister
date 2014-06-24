@@ -1,7 +1,8 @@
 ﻿using BurnSystems.ObjectActivation;
 using DatenMeister;
 using DatenMeister.AddOns.Export.Excel;
-//using DatenMeister.AddOns.Views;
+using DatenMeister.AddOns.Export.Report.Simple;
+using DatenMeister.AddOns.Views;
 using DatenMeister.DataProvider;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
@@ -52,8 +53,8 @@ namespace ProjektMeister
 
             // Exports the entry to an excel item
             ExcelExportGui.AddMenu(wnd, () => this.ProjectExtent);
-
-            //TypeManager.Integrate(wnd);
+            TypeManager.Integrate(wnd);
+            SimpleReportGui.Integrate(wnd);
         }
 
         public void Stop()
@@ -78,6 +79,7 @@ namespace ProjektMeister
             this.ProjectExtent = database.ProjectExtent;
             this.ExtentSettings = database.Settings;
             this.ViewExtent = database.ViewExtent; // Here, the views are initialized
+            this.TypeExtent = database.TypeExtent;
 
             for (var n = 0; n < 1; n++)
             {
