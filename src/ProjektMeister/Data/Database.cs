@@ -208,7 +208,8 @@ namespace ProjektMeister.Data
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
                 new TextField("Finished", "finished"),
-                new TextField("Assigned", "assignedPerson"));
+                new TextField("Assigned", "assignedPerson"),
+                new TextField("Predecessors", "predecessors"));
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
             asObjectTasks.setExtentUri(uri +"?type=Task");
@@ -225,7 +226,8 @@ namespace ProjektMeister.Data
                 new TextField("Start", "startdate"),
                 new TextField("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
-                new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"));
+                new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"),
+                new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             // Adds the extent of views to the pool
