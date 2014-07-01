@@ -190,10 +190,15 @@ namespace ProjektMeister.Data
             Views.PersonDetail.set("name", "Person (Detail)");
 
             var personDetailColumns = new DotNetSequence(
+                new TextField("First Name", "firstname"),
                 new TextField("Name", "name"),
                 new TextField("E-Mail", "email"),
                 new TextField("Phone", "phone"),
-                new TextField("Job", "title"));
+                new TextField("Job", "title"),
+                new TextField("Comment", "comment")
+                {
+                    isMultiline = true
+                });
             Views.PersonDetail.set("fieldInfos", personDetailColumns);
 
             ////////////////////////////////////////////
@@ -211,7 +216,7 @@ namespace ProjektMeister.Data
                 new TextField("Assigned", "assignedPerson"));
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
-            asObjectTasks.setExtentUri(uri +"?type=Task");
+            asObjectTasks.setExtentUri(uri + "?type=Task");
             asObjectTasks.setMainType(Database.Types.Task);
 
             // Detail view for persons
