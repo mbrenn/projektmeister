@@ -228,8 +228,8 @@ namespace ProjektMeister.Data
 
             var taskDetailColumns = new DotNetSequence(
                 new TextField("Name", "name"),
-                new TextField("Start", "startdate"),
-                new TextField("Ende", "enddate"),
+                new DatePicker("Start", "startdate"),
+                new DatePicker("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
                 new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"),
                 new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"));
