@@ -210,8 +210,14 @@ namespace ProjektMeister.Data
 
             var taskColumns = new DotNetSequence(
                 new TextField("Name", "name"),
-                new TextField("Start", "startdate"),
-                new TextField("Ende", "enddate"),
+                new TextField("Start", "startdate")
+                {
+                    isDateTime = true
+                },
+                new TextField("Ende", "enddate")
+                {
+                    isDateTime = true
+                },
                 new TextField("Finished", "finished"),
                 new TextField("Assigned", "assignedPerson"),
                 new TextField("Predecessors", "predecessors"));
