@@ -6,6 +6,7 @@ using DatenMeister.DataProvider.Xml;
 using DatenMeister.Entities.FieldInfos;
 using DatenMeister.Logic;
 using DatenMeister.Logic.Views;
+using DatenMeister.Pool;
 using ProjektMeister.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -115,7 +116,7 @@ namespace ProjektMeister.Data
 
             xmlProjectExtent.Settings = xmlSettings;
 
-            this.pool.Add(xmlProjectExtent, null, "ProjektMeister");
+            this.pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent);
 
             xmlProjectExtent.Settings.InitDatabaseFunction = (x) =>
                 {
