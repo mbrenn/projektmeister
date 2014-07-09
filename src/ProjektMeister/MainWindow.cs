@@ -8,6 +8,7 @@ using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
 using DatenMeister.WPF.Helper;
+using DatenMeister.WPF.Modules.RecentFiles;
 using DatenMeister.WPF.Windows;
 using ProjektMeister.Data;
 using System;
@@ -45,10 +46,10 @@ namespace ProjektMeister
             // Start the application
             var database = this.InitializeDatabase();
             this.core = new ApplicationCore(this);
-
             var wnd = this.core.CreateWindow();
 
             // Other menu helper
+            RecentFileIntegration.AddSupport(wnd);
             MenuHelper.AddExtentView(wnd, database.ViewExtent);
 
             // Exports the entry to an excel item
