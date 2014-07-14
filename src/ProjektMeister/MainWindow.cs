@@ -45,6 +45,9 @@ namespace ProjektMeister
 
             // Start the application
             var database = this.InitializeDatabase();
+            database.Pool.Add(umlTypes, null, "UML Types");
+            database.Pool.Add(fieldInfoTypes, null, "FieldInfos Types");
+            database.Pool.Add(dmTypes, null, "DatenMeister Types");
             this.core = new ApplicationCore(this);
             var wnd = this.core.CreateWindow();
 
@@ -86,39 +89,50 @@ namespace ProjektMeister
             {
                 // Create some persons, just for test
                 var factory = Factory.GetFor(database.ProjectExtent);
-                var person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Person);
+                var person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Person);
                 person.set("name", "Martin Brenn");
                 person.set("email", "brenn@depon.net");
                 person.set("phone", "0151/560");
                 person.set("title", "Project Lead");
 
-                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Person);
+                person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Person);
                 person.set("name", "Martina Brenn");
                 person.set("email", "brenna@depon.net");
                 person.set("phone", "0151/650");
                 person.set("title", "Project Support");
 
-                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Task);
+                person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My First Task");
                 person.set("startdate", DateTime.Now);
                 person.set("enddate", DateTime.Now.AddMonths(1));
                 person.set("finished", false);
 
 
-                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Task);
+                person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My Second Task");
                 person.set("startdate", DateTime.Now.AddMonths(1));
                 person.set("enddate", DateTime.Now.AddMonths(2));
                 person.set("finished", false);
 
-                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Task);
+                person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My Third Task");
                 person.set("startdate", DateTime.Now.AddMonths(3));
                 person.set("enddate", DateTime.Now.AddMonths(4));
                 person.set("finished", false);
 
-
-                person = factory.CreateInExtent(database.ProjectExtent, Database.Types.Task);
+                person = factory.CreateInExtent(
+                    database.ProjectExtent,
+                    ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My Fourth Task");
                 person.set("startdate", DateTime.Now.AddMonths(4));
                 person.set("enddate", DateTime.Now.AddMonths(5));
@@ -130,8 +144,12 @@ namespace ProjektMeister
 
             // Initialize the activation container
             var viewManager = new DefaultViewManager(database.ViewExtent);
-            viewManager.Add(Database.Types.Person, Database.Views.PersonDetail, true);
-            viewManager.Add(Database.Types.Task, Database.Views.TaskDetail, true);
+            viewManager.Add(
+                    ProjektMeister.Data.Entities.AsObject.Types.Person,
+                    Database.Views.PersonDetail, true);
+            viewManager.Add(
+                    ProjektMeister.Data.Entities.AsObject.Types.Task,
+                    Database.Views.TaskDetail, true);
             viewManager.DoAutogenerateForm = true;
 
             Global.Application.Bind<IViewManager>().ToConstant(viewManager);

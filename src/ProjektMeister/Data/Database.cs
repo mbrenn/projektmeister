@@ -97,7 +97,8 @@ namespace ProjektMeister.Data
             var poolExtent = new DatenMeisterPoolExtent(this.pool);
             this.pool.Add(poolExtent, null, DatenMeisterPoolExtent.DefaultName);
 
-            this.InitTypes();
+            this.TypeExtent = ProjektMeister.Data.Entities.AsObject.Types.Init();
+            this.pool.Add(this.TypeExtent, null, "ProjektMeister Types"); 
             this.InitDatabase();
             this.InitViews();
         }
@@ -111,8 +112,14 @@ namespace ProjektMeister.Data
             var xmlProjectExtent = new XmlExtent(dataDocument, uri);
             this.xmlSettings = new XmlSettings();
             this.xmlSettings.SkipRootNode = true;
-            this.xmlSettings.Mapping.Add("person", Types.Person, (x) => x.Elements().Elements("persons").First());
-            this.xmlSettings.Mapping.Add("task", Types.Task, (x) => x.Elements().Elements("tasks").First());
+            this.xmlSettings.Mapping.Add(
+                "person", 
+                ProjektMeister.Data.Entities.AsObject.Types.Person, 
+                (x) => x.Elements().Elements("persons").First());
+            this.xmlSettings.Mapping.Add(
+                "task",
+                ProjektMeister.Data.Entities.AsObject.Types.Task, 
+                (x) => x.Elements().Elements("tasks").First());
 
             xmlProjectExtent.Settings = xmlSettings;
 
@@ -145,23 +152,6 @@ namespace ProjektMeister.Data
             document.Root.Add(xmlTasks);
         }
 
-        private void InitTypes()
-        {
-            var typeDocument = new XDocument(new XElement("types"));
-            this.TypeExtent = new XmlExtent(typeDocument, typeUri);
-            this.pool.Add(this.TypeExtent, null, "ProjektMeister Types");
-
-            // Creates the types
-            var typeFactory = Factory.GetFor(this.TypeExtent);
-            Types.Person = typeFactory.CreateInExtent(this.TypeExtent);
-            var person = new DatenMeister.Entities.AsObject.Uml.Type(Types.Person);
-            person.setName("Person");
-
-            Types.Task = typeFactory.CreateInExtent(this.TypeExtent);
-            var task = new DatenMeister.Entities.AsObject.Uml.Type(Types.Task);
-            task.setName("Task");
-        }
-
         private void InitViews()
         {
             this.ViewExtent = new DotNetExtent(viewUri);
@@ -182,7 +172,7 @@ namespace ProjektMeister.Data
             asObjectPersons.setFieldInfos(personColumns);
             asObjectPersons.setName("Persons");
             asObjectPersons.setExtentUri(uri + "?type=Person");
-            asObjectPersons.setMainType(Database.Types.Person);
+            asObjectPersons.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Person);
 
             // Detail view for persons
             var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
@@ -225,7 +215,7 @@ namespace ProjektMeister.Data
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
             asObjectTasks.setExtentUri(uri + "?type=Task");
-            asObjectTasks.setMainType(Database.Types.Task);
+            asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
             // Detail view for persons
             var taskDetailView = new DatenMeister.Entities.FieldInfos.FormView();
@@ -244,24 +234,6 @@ namespace ProjektMeister.Data
 
             // Adds the extent of views to the pool
             this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
-        }
-
-        /// <summary>
-        /// Stores the types for persons and tasks
-        /// </summary>
-        public static class Types
-        {
-            public static IObject Person
-            {
-                get;
-                internal set;
-            }
-
-            public static IObject Task
-            {
-                get;
-                internal set;
-            }
         }
 
         public static class Views

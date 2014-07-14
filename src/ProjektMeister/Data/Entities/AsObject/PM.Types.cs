@@ -19,6 +19,7 @@ namespace ProjektMeister.Data.Entities.AsObject
                 extent.Elements().add(Types.Task);
             }
 
+            extent.AddDefaultMappings();
             return extent;
         }
 
