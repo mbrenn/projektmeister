@@ -113,7 +113,6 @@ namespace ProjektMeister
                 person.set("enddate", DateTime.Now.AddMonths(1));
                 person.set("finished", false);
 
-
                 person = factory.CreateInExtent(
                     database.ProjectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Task);

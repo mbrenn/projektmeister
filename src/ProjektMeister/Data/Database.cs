@@ -66,7 +66,7 @@ namespace ProjektMeister.Data
             get { return this.projectExtent; }
         }
 
-        public DotNetExtent ViewExtent
+        public XmlExtent ViewExtent
         {
             get;
             set;
@@ -154,17 +154,24 @@ namespace ProjektMeister.Data
 
         private void InitViews()
         {
-            this.ViewExtent = new DotNetExtent(viewUri);
-            DatenMeister.Entities.AsObject.FieldInfo.Types.AssignTypeMapping(this.ViewExtent);
+            this.ViewExtent = new XmlExtent(new XDocument(new XElement("views")), viewUri);
+
+            // Adds the extent of views to the pool
+            this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
+
+            // Creates the factory
+            var factory = Factory.GetFor(this.ViewExtent);
+            //DatenMeister.Entities.AsObject.FieldInfo.Types.AssignTypeMapping(this.ViewExtent);
 
             ////////////////////////////////////////////
             // List view for persons
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
-            Views.PersonTable = new DotNetObject(this.ViewExtent, personTableView);
+            Views.PersonTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
             this.ViewExtent.Elements().add(Views.PersonTable);
             var asObjectPersons = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.PersonTable);
 
             var personColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
                 new TextField("Name", "name"),
                 new TextField("E-Mail", "email"),
                 new TextField("Phone", "phone"),
@@ -176,11 +183,12 @@ namespace ProjektMeister.Data
 
             // Detail view for persons
             var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
-            Views.PersonDetail = new DotNetObject(this.ViewExtent, personDetailView);
+            Views.PersonDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             this.ViewExtent.Elements().add(Views.PersonDetail);
             Views.PersonDetail.set("name", "Person (Detail)");
 
             var personDetailColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
                 new TextField("First Name", "firstname"),
                 new TextField("Name", "name"),
                 new TextField("E-Mail", "email"),
@@ -195,11 +203,12 @@ namespace ProjektMeister.Data
             ////////////////////////////////////////////
             // List view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
-            Views.TaskTable = new DotNetObject(this.ViewExtent, taskTableView);
+            Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
             this.ViewExtent.Elements().add(Views.TaskTable);
             var asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
 
             var taskColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
                 new TextField("Name", "name"),
                 new TextField("Start", "startdate")
                 {
@@ -219,11 +228,12 @@ namespace ProjektMeister.Data
 
             // Detail view for persons
             var taskDetailView = new DatenMeister.Entities.FieldInfos.FormView();
-            Views.TaskDetail = new DotNetObject(this.ViewExtent, taskDetailView);
+            Views.TaskDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             Views.TaskDetail.set("name", "Person (Detail)");
             this.ViewExtent.Elements().add(Views.TaskDetail);
 
             var taskDetailColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
                 new TextField("Name", "name"),
                 new DatePicker("Start", "startdate"),
                 new DatePicker("Ende", "enddate"),
@@ -231,9 +241,6 @@ namespace ProjektMeister.Data
                 new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"),
                 new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"));
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
-
-            // Adds the extent of views to the pool
-            this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
         }
 
         public static class Views
