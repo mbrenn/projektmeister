@@ -179,6 +179,9 @@ namespace ProjektMeister.Data
             asObjectPersons.setFieldInfos(personColumns);
             asObjectPersons.setName("Persons");
             asObjectPersons.setExtentUri(uri + "?type=Person");
+            asObjectPersons.setAllowNew(true);
+            asObjectPersons.setAllowEdit(true);
+            asObjectPersons.setAllowDelete(true);
             asObjectPersons.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Person);
 
             // Detail view for persons
@@ -224,6 +227,9 @@ namespace ProjektMeister.Data
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
             asObjectTasks.setExtentUri(uri + "?type=Task");
+            asObjectTasks.setAllowNew(true);
+            asObjectTasks.setAllowEdit(true);
+            asObjectTasks.setAllowDelete(true);
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
             // Detail view for persons
@@ -239,7 +245,11 @@ namespace ProjektMeister.Data
                 new DatePicker("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
                 new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"),
-                new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"));
+                new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"),
+                new TextField("Comment", "comment")
+                {
+                    isMultiline = true
+                });
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
         }
 

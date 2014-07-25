@@ -2,7 +2,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.5.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Person : DatenMeister.IObject
+    public class Person : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
         private DatenMeister.IObject obj;
         public Person(DatenMeister.IObject obj)
@@ -123,7 +123,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getName(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
-            return (result is System.String) ? ((System.String) result) : default(System.String);
+            return DatenMeister.Extensions.ToString(result);
         }
 
         public static void setName(DatenMeister.IObject obj, System.String value)
@@ -144,7 +144,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getEmail(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("email"));
-            return (result is System.String) ? ((System.String) result) : default(System.String);
+            return DatenMeister.Extensions.ToString(result);
         }
 
         public static void setEmail(DatenMeister.IObject obj, System.String value)
@@ -165,7 +165,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getPhone(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("phone"));
-            return (result is System.String) ? ((System.String) result) : default(System.String);
+            return DatenMeister.Extensions.ToString(result);
         }
 
         public static void setPhone(DatenMeister.IObject obj, System.String value)
@@ -186,7 +186,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getTitle(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("title"));
-            return (result is System.String) ? ((System.String) result) : default(System.String);
+            return DatenMeister.Extensions.ToString(result);
         }
 
         public static void setTitle(DatenMeister.IObject obj, System.String value)
@@ -198,7 +198,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.5.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Task : DatenMeister.IObject
+    public class Task : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
         private DatenMeister.IObject obj;
         public Task(DatenMeister.IObject obj)
@@ -319,7 +319,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getName(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
-            return (result is System.String) ? ((System.String) result) : default(System.String);
+            return DatenMeister.Extensions.ToString(result);
         }
 
         public static void setName(DatenMeister.IObject obj, System.String value)
@@ -403,7 +403,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.Boolean getFinished(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("finished"));
-            return (result is System.Boolean) ? ((System.Boolean) result) : default(System.Boolean);
+            return DatenMeister.Extensions.ToBoolean(result);
         }
 
         public static void setFinished(DatenMeister.IObject obj, System.Boolean value)
