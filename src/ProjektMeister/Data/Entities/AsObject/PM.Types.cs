@@ -4,7 +4,7 @@ namespace ProjektMeister.Data.Entities.AsObject
     {
         public static DatenMeister.IURIExtent Init()
         {
-            var extent = new DatenMeister.DataProvider.DotNet.DotNetExtent("datenmeister:///types/projektmeister");
+            var extent = new DatenMeister.DataProvider.DotNet.DotNetExtent("datenmeister:///projektmeister/types");
             if(Types.Person == null)
             {
                 var type = new DatenMeister.Entities.UML.Type();

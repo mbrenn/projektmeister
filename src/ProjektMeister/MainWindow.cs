@@ -4,6 +4,7 @@ using DatenMeister.AddOns.Export.Excel;
 using DatenMeister.AddOns.Export.Report.Simple;
 using DatenMeister.AddOns.Views;
 using DatenMeister.DataProvider;
+using DatenMeister.Logic;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
@@ -44,12 +45,13 @@ namespace ProjektMeister
             var dmTypes = DatenMeister.Entities.AsObject.DM.Types.Init();
 
             // Start the application
+            this.Pool = DatenMeisterPool.Create();
+            this.core = new ApplicationCore(this);
             var database = this.InitializeDatabase();
             database.Pool.Add(umlTypes, null, "UML Types");
             database.Pool.Add(fieldInfoTypes, null, "FieldInfos Types");
             database.Pool.Add(dmTypes, null, "DatenMeister Types");
-            this.core = new ApplicationCore(this);
-            var wnd = this.core.CreateWindow();
+            var wnd = WindowFactory.CreateWindow(this.core);
 
             // Other menu helper
             RecentFileIntegration.AddSupport(wnd);
@@ -65,6 +67,7 @@ namespace ProjektMeister
         {
             if (this.core != null)
             {
+                this.core.SaveExtentByUri("datenmeister:///projektmeister/types");
                 this.core.Dispose();
             }
         }
@@ -78,8 +81,7 @@ namespace ProjektMeister
             var database = new Database();
 
             // Initializes the database itself
-            database.Init();
-            this.Pool = database.Pool;
+            database.Init(this.core, this.Pool);
             this.ProjectExtent = database.ProjectExtent;
             this.ExtentSettings = database.Settings;
             this.ViewExtent = database.ViewExtent; // Here, the views are initialized

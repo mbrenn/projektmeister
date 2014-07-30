@@ -30,7 +30,7 @@ namespace ProjektMeister.Data
         /// <summary>
         /// Stores the uri for the types and other general information
         /// </summary>
-        private const string typeUri = "datenmeister:///projektmeister/types";
+        public const string TypeUri = "datenmeister:///projektmeister/types";
 
         /// <summary>
         /// Stores the uri for the views
@@ -40,7 +40,7 @@ namespace ProjektMeister.Data
         /// <summary>
         /// Stores the datenmeister pool
         /// </summary>
-        private DatenMeisterPool pool;
+        private IPool pool;
 
         /// <summary>
         /// Stores the xmlsettings being used for 
@@ -80,7 +80,7 @@ namespace ProjektMeister.Data
             get { return this.xmlSettings; }
         }
 
-        public DatenMeisterPool Pool
+        public IPool Pool
         {
             get { return this.pool; }
         }
@@ -88,25 +88,20 @@ namespace ProjektMeister.Data
         /// <summary>
         /// Initializes a new instance of the the database
         /// </summary>
-        public void Init()
+        public void Init(ApplicationCore core, IPool pool)
         {
-            this.pool = new DatenMeisterPool();
-            this.pool.DoDefaultBinding();
-
-            // Adds the extent for the extents
-            var poolExtent = new DatenMeisterPoolExtent(this.pool);
-            this.pool.Add(poolExtent, null, DatenMeisterPoolExtent.DefaultName);
+            this.pool = pool;
 
             this.TypeExtent = ProjektMeister.Data.Entities.AsObject.Types.Init();
-            this.pool.Add(this.TypeExtent, null, "ProjektMeister Types"); 
-            this.InitDatabase();
+            this.pool.Add(this.TypeExtent, core.GetApplicationStoragePathFor("types"), "ProjektMeister Types");
+            this.InitDataExtent();
             this.InitViews();
         }
 
         /// <summary>
         /// Initializes the database
         /// </summary>
-        private void InitDatabase()
+        private void InitDataExtent()
         {
             var dataDocument = new XDocument();
             var xmlProjectExtent = new XmlExtent(dataDocument, uri);
@@ -172,6 +167,7 @@ namespace ProjektMeister.Data
 
             var personColumns = new DotNetSequence(
                 ViewHelper.ViewTypes,
+                new TextField("First Name", "firstname"),
                 new TextField("Name", "name"),
                 new TextField("E-Mail", "email"),
                 new TextField("Phone", "phone"),
