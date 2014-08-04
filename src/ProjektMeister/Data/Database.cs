@@ -7,6 +7,7 @@ using DatenMeister.Entities.FieldInfos;
 using DatenMeister.Logic;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
+using DatenMeister.Transformations;
 using ProjektMeister.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -128,6 +129,13 @@ namespace ProjektMeister.Data
             xmlProjectExtent.Settings.InitDatabaseFunction(dataDocument);
 
             this.projectExtent = xmlProjectExtent;
+
+            this.pool.Add(
+                new ReflectiveExtent(
+                    this.projectExtent.Elements().FilterByProperty("finished", false),
+                    Database.uri + "/OpenTasks"),
+                null,
+                "Open Tasks");
         }
 
         /// <summary>
@@ -247,6 +255,36 @@ namespace ProjektMeister.Data
                     isMultiline = true
                 });
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
+
+
+            ////////////////////////////////////////////
+            // List view for tasks
+            taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
+            Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
+            this.ViewExtent.Elements().add(Views.TaskTable);
+            asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
+
+            taskColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
+                new TextField("Name", "name"),
+                new TextField("Start", "startdate")
+                {
+                    isDateTime = true
+                },
+                new TextField("Ende", "enddate")
+                {
+                    isDateTime = true
+                },
+                new TextField("Finished", "finished"),
+                new TextField("Assigned", "assignedPerson"),
+                new TextField("Predecessors", "predecessors"));
+            asObjectTasks.setFieldInfos(taskColumns);
+            asObjectTasks.setName("Open Tasks");
+            asObjectTasks.setExtentUri(uri + "/OpenTasks");
+            asObjectTasks.setAllowNew(true);
+            asObjectTasks.setAllowEdit(true);
+            asObjectTasks.setAllowDelete(true);
+            asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
         }
 
         public static class Views
