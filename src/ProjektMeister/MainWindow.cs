@@ -48,9 +48,9 @@ namespace ProjektMeister
             this.Pool = DatenMeisterPool.Create();
             this.core = new ApplicationCore(this);
             var database = this.InitializeDatabase();
-            database.Pool.Add(umlTypes, null, "UML Types");
-            database.Pool.Add(fieldInfoTypes, null, "FieldInfos Types");
-            database.Pool.Add(dmTypes, null, "DatenMeister Types");
+            database.Pool.Add(umlTypes, null, "UML Types", ExtentType.Types);
+            database.Pool.Add(fieldInfoTypes, null, "FieldInfos Types", ExtentType.Types);
+            database.Pool.Add(dmTypes, null, "DatenMeister Types", ExtentType.Types);
             var wnd = WindowFactory.CreateWindow(this.core);
 
             // Other menu helper

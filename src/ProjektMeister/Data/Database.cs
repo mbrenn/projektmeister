@@ -94,7 +94,7 @@ namespace ProjektMeister.Data
             this.pool = pool;
 
             this.TypeExtent = ProjektMeister.Data.Entities.AsObject.Types.Init();
-            this.pool.Add(this.TypeExtent, core.GetApplicationStoragePathFor("types"), "ProjektMeister Types");
+            this.pool.Add(this.TypeExtent, core.GetApplicationStoragePathFor("types"), "ProjektMeister Types", ExtentType.Types);
             this.InitDataExtent();
             this.InitViews();
         }
@@ -119,7 +119,7 @@ namespace ProjektMeister.Data
 
             xmlProjectExtent.Settings = xmlSettings;
 
-            this.pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent);
+            this.pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent, ExtentType.Data);
 
             xmlProjectExtent.Settings.InitDatabaseFunction = (x) =>
                 {
@@ -135,7 +135,8 @@ namespace ProjektMeister.Data
                     this.projectExtent.Elements().FilterByProperty("finished", false),
                     Database.uri + "/OpenTasks"),
                 null,
-                "Open Tasks");
+                "Open Tasks",
+                ExtentType.Queries);
         }
 
         /// <summary>
@@ -160,7 +161,7 @@ namespace ProjektMeister.Data
             this.ViewExtent = new XmlExtent(new XDocument(new XElement("views")), viewUri);
 
             // Adds the extent of views to the pool
-            this.pool.Add(this.ViewExtent, null, "ProjektMeister Views");
+            this.pool.Add(this.ViewExtent, null, "ProjektMeister Views", ExtentType.Views);
 
             // Creates the factory
             var factory = Factory.GetFor(this.ViewExtent);
