@@ -71,7 +71,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Localization_ProjektMeister.resx</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.cs" />
+    <Compile Include="ProjectMeisterConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

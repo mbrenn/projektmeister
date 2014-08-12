@@ -23,155 +23,49 @@ namespace ProjektMeister.Data
     /// </summary>
     public class Database
     {
-        /// <summary>
-        /// Stores the uri for new instances
-        /// </summary>
-        public const string uri = "datenmeister:///projektmeister/data";
-
-        /// <summary>
-        /// Stores the uri for the types and other general information
-        /// </summary>
-        public const string TypeUri = "datenmeister:///projektmeister/types";
-
-        /// <summary>
-        /// Stores the uri for the views
-        /// </summary>
-        private const string viewUri = "datenmeister:///projektmeister/views";
-
-        /// <summary>
-        /// Stores the datenmeister pool
-        /// </summary>
-        private IPool pool;
-
-        /// <summary>
-        /// Stores the xmlsettings being used for 
-        /// </summary>
-        private XmlSettings xmlSettings;
-
-        /// <summary>
-        /// The extent, which is used by the ProjektMeister
-        /// </summary>
-        private IURIExtent projectExtent;
-
-        /// <summary>
-        /// Gets or sets the type extent
-        /// </summary>
-        public IURIExtent TypeExtent
-        {
-            get;
-            set;
-        }
-
-        public IURIExtent ProjectExtent
-        {
-            get { return this.projectExtent; }
-        }
-
-        public XmlExtent ViewExtent
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets the settings of the xml file
-        /// </summary>
-        public XmlSettings Settings
-        {
-            get { return this.xmlSettings; }
-        }
-
-        public IPool Pool
-        {
-            get { return this.pool; }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the the database
-        /// </summary>
-        public void Init(ApplicationCore core, IPool pool)
-        {
-            this.pool = pool;
-
-            this.TypeExtent = ProjektMeister.Data.Entities.AsObject.Types.Init();
-            this.pool.Add(this.TypeExtent, core.GetApplicationStoragePathFor("types"), "ProjektMeister Types", ExtentType.Types);
-            this.InitDataExtent();
-            this.InitViews();
-        }
-
+        
         /// <summary>
         /// Initializes the database
         /// </summary>
-        private void InitDataExtent()
+        private static XmlExtent AddDataExtent()
         {
+            var pool = PoolResolver.GetDefaultPool();
+
             var dataDocument = new XDocument();
-            var xmlProjectExtent = new XmlExtent(dataDocument, uri);
-            this.xmlSettings = new XmlSettings();
-            this.xmlSettings.SkipRootNode = true;
-            this.xmlSettings.Mapping.Add(
+            var xmlProjectExtent = new XmlExtent(dataDocument, ProjectMeisterConfiguration.DataUri);
+            var xmlSettings = new XmlSettings();
+            xmlSettings.SkipRootNode = true;
+            xmlSettings.Mapping.Add(
                 "person", 
                 ProjektMeister.Data.Entities.AsObject.Types.Person, 
                 (x) => x.Elements().Elements("persons").First());
-            this.xmlSettings.Mapping.Add(
+            xmlSettings.Mapping.Add(
                 "task",
                 ProjektMeister.Data.Entities.AsObject.Types.Task, 
                 (x) => x.Elements().Elements("tasks").First());
 
             xmlProjectExtent.Settings = xmlSettings;
 
-            this.pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent, ExtentType.Data);
+            pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent, ExtentType.Data);
 
-            xmlProjectExtent.Settings.InitDatabaseFunction = (x) =>
-                {
-                    FillEmptyDocument(x);
-                };
-
-            xmlProjectExtent.Settings.InitDatabaseFunction(dataDocument);
-
-            this.projectExtent = xmlProjectExtent;
-
-            this.pool.Add(
-                new ReflectiveExtent(
-                    this.projectExtent.Elements().FilterByProperty("finished", false),
-                    Database.uri + "/OpenTasks"),
-                null,
-                "Open Tasks",
-                ExtentType.Queries);
+            return xmlProjectExtent;
         }
 
-        /// <summary>
-        /// Fills an empty document 
-        /// </summary>
-        /// <param name="document">Document being filled</param>
-        public static void FillEmptyDocument(XDocument document)
+        public static void InitViews(IPool pool)
         {
-            var xmlPersons = new XElement("persons");
-            var xmlTasks = new XElement("tasks");
-            if (document.Root == null)
-            {
-                document.Add(new XElement("data"));
-            }
-
-            document.Root.Add(xmlPersons);
-            document.Root.Add(xmlTasks);
-        }
-
-        private void InitViews()
-        {
-            this.ViewExtent = new XmlExtent(new XDocument(new XElement("views")), viewUri);
+            var viewExtent = new XmlExtent(new XDocument(new XElement("views")), ProjectMeisterConfiguration.ViewUri);
 
             // Adds the extent of views to the pool
-            this.pool.Add(this.ViewExtent, null, "ProjektMeister Views", ExtentType.Views);
+            pool.Add(viewExtent, null, "ProjektMeister Views", ExtentType.View);
 
             // Creates the factory
-            var factory = Factory.GetFor(this.ViewExtent);
-            //DatenMeister.Entities.AsObject.FieldInfo.Types.AssignTypeMapping(this.ViewExtent);
+            var factory = Factory.GetFor(viewExtent);
 
             ////////////////////////////////////////////
             // List view for persons
             var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
-            this.ViewExtent.Elements().add(Views.PersonTable);
+            viewExtent.Elements().add(Views.PersonTable);
             var asObjectPersons = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.PersonTable);
 
             var personColumns = new DotNetSequence(
@@ -183,7 +77,7 @@ namespace ProjektMeister.Data
                 new TextField("Job", "title"));
             asObjectPersons.setFieldInfos(personColumns);
             asObjectPersons.setName("Persons");
-            asObjectPersons.setExtentUri(uri + "?type=Person");
+            asObjectPersons.setExtentUri(ProjectMeisterConfiguration.DataUri + "?type=Person");
             asObjectPersons.setAllowNew(true);
             asObjectPersons.setAllowEdit(true);
             asObjectPersons.setAllowDelete(true);
@@ -192,7 +86,7 @@ namespace ProjektMeister.Data
             // Detail view for persons
             var personDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.PersonDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
-            this.ViewExtent.Elements().add(Views.PersonDetail);
+            viewExtent.Elements().add(Views.PersonDetail);
             Views.PersonDetail.set("name", "Person (Detail)");
 
             var personDetailColumns = new DotNetSequence(
@@ -212,7 +106,7 @@ namespace ProjektMeister.Data
             // List view for tasks
             var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
-            this.ViewExtent.Elements().add(Views.TaskTable);
+            viewExtent.Elements().add(Views.TaskTable);
             var asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
 
             var taskColumns = new DotNetSequence(
@@ -231,7 +125,7 @@ namespace ProjektMeister.Data
                 new TextField("Predecessors", "predecessors"));
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
-            asObjectTasks.setExtentUri(uri + "?type=Task");
+            asObjectTasks.setExtentUri(ProjectMeisterConfiguration.DataUri + "?type=Task");
             asObjectTasks.setAllowNew(true);
             asObjectTasks.setAllowEdit(true);
             asObjectTasks.setAllowDelete(true);
@@ -241,7 +135,7 @@ namespace ProjektMeister.Data
             var taskDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.TaskDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             Views.TaskDetail.set("name", "Person (Detail)");
-            this.ViewExtent.Elements().add(Views.TaskDetail);
+            viewExtent.Elements().add(Views.TaskDetail);
 
             var taskDetailColumns = new DotNetSequence(
                 ViewHelper.ViewTypes,
@@ -249,20 +143,19 @@ namespace ProjektMeister.Data
                 new DatePicker("Start", "startdate"),
                 new DatePicker("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
-                new ReferenceByRef("Assigned", "assignedPerson", uri + "?type=Person", "name"),
-                new MultiReferenceField("Predecessors", "predecessors", uri + "?type=Task", "name"),
+                new ReferenceByRef("Assigned", "assignedPerson", ProjectMeisterConfiguration.DataUri + "?type=Person", "name"),
+                new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name"),
                 new TextField("Comment", "comment")
                 {
                     isMultiline = true
                 });
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
-
             ////////////////////////////////////////////
             // List view for tasks
             taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
-            this.ViewExtent.Elements().add(Views.TaskTable);
+            viewExtent.Elements().add(Views.TaskTable);
             asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
 
             taskColumns = new DotNetSequence(
@@ -281,7 +174,7 @@ namespace ProjektMeister.Data
                 new TextField("Predecessors", "predecessors"));
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Open Tasks");
-            asObjectTasks.setExtentUri(uri + "/OpenTasks");
+            asObjectTasks.setExtentUri(ProjectMeisterConfiguration.DataUri + "/OpenTasks");
             asObjectTasks.setAllowNew(true);
             asObjectTasks.setAllowEdit(true);
             asObjectTasks.setAllowDelete(true);
@@ -312,24 +205,6 @@ namespace ProjektMeister.Data
             {
                 get;
                 internal set;
-            }
-        }
-
-        /// <summary>
-        /// Replaces the data database
-        /// </summary>
-        /// <param name="extent">Xml Extent being stored</param>
-        internal void ReplaceDatabase(XmlExtent extent)
-        {
-            extent.Settings = this.xmlSettings;
-            this.projectExtent = extent;
-
-            foreach (var mapping in this.xmlSettings.Mapping.GetAll())
-            {
-                if (mapping.RetrieveRootNode(extent.XmlDocument) == null)
-                {
-                    throw new InvalidOperationException("Given extent is not compatible to ProjektMeister");
-                }
             }
         }
     }

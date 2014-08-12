@@ -5,7 +5,13 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static DatenMeister.IURIExtent Init()
         {
             var extent = new DatenMeister.DataProvider.DotNet.DotNetExtent("datenmeister:///projektmeister/types");
-            if(Types.Person == null)
+            Init(extent);
+            return extent;
+        }
+
+        public static void Init(DatenMeister.DataProvider.DotNet.DotNetExtent extent)
+        {
+            if(Types.Person == null || true)
             {
                 var type = new DatenMeister.Entities.UML.Type();
                 type.name = "Person";
@@ -13,7 +19,7 @@ namespace ProjektMeister.Data.Entities.AsObject
                 extent.Elements().add(Types.Person);
             }
 
-            if(Types.Task == null)
+            if(Types.Task == null || true)
             {
                 var type = new DatenMeister.Entities.UML.Type();
                 type.name = "Task";
@@ -22,7 +28,6 @@ namespace ProjektMeister.Data.Entities.AsObject
             }
 
             extent.AddDefaultMappings();
-            return extent;
         }
 
         public static DatenMeister.IObject Person;
