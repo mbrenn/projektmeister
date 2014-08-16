@@ -111,7 +111,10 @@ namespace ProjektMeister.Data
 
             var taskColumns = new DotNetSequence(
                 ViewHelper.ViewTypes,
-                new TextField("Name", "name"),
+                new TextField("Name", "name")
+                {
+                    columnWidth = 200
+                },
                 new TextField("Start", "startdate")
                 {
                     isDateTime = true
@@ -122,7 +125,10 @@ namespace ProjektMeister.Data
                 },
                 new TextField("Finished", "finished"),
                 new TextField("Assigned", "assignedPerson"),
-                new TextField("Predecessors", "predecessors"));
+                new TextField("Predecessors", "predecessors")
+                {
+                    columnWidth = 200
+                });
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Tasks");
             asObjectTasks.setExtentUri(ProjectMeisterConfiguration.DataUri + "?type=Task");
@@ -158,20 +164,6 @@ namespace ProjektMeister.Data
             viewExtent.Elements().add(Views.TaskTable);
             asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
 
-            taskColumns = new DotNetSequence(
-                ViewHelper.ViewTypes,
-                new TextField("Name", "name"),
-                new TextField("Start", "startdate")
-                {
-                    isDateTime = true
-                },
-                new TextField("Ende", "enddate")
-                {
-                    isDateTime = true
-                },
-                new TextField("Finished", "finished"),
-                new TextField("Assigned", "assignedPerson"),
-                new TextField("Predecessors", "predecessors"));
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Open Tasks");
             asObjectTasks.setExtentUri(ProjectMeisterConfiguration.DataUri + "/OpenTasks");

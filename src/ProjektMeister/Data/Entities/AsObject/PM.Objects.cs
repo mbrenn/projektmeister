@@ -123,7 +123,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getName(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
-            return DatenMeister.Extensions.ToString(result);
+            return DatenMeister.ObjectConversion.ToString(result);
         }
 
         public static void setName(DatenMeister.IObject obj, System.String value)
@@ -144,7 +144,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getEmail(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("email"));
-            return DatenMeister.Extensions.ToString(result);
+            return DatenMeister.ObjectConversion.ToString(result);
         }
 
         public static void setEmail(DatenMeister.IObject obj, System.String value)
@@ -165,7 +165,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getPhone(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("phone"));
-            return DatenMeister.Extensions.ToString(result);
+            return DatenMeister.ObjectConversion.ToString(result);
         }
 
         public static void setPhone(DatenMeister.IObject obj, System.String value)
@@ -186,7 +186,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getTitle(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("title"));
-            return DatenMeister.Extensions.ToString(result);
+            return DatenMeister.ObjectConversion.ToString(result);
         }
 
         public static void setTitle(DatenMeister.IObject obj, System.String value)
@@ -319,7 +319,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.String getName(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
-            return DatenMeister.Extensions.ToString(result);
+            return DatenMeister.ObjectConversion.ToString(result);
         }
 
         public static void setName(DatenMeister.IObject obj, System.String value)
@@ -403,7 +403,7 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static System.Boolean getFinished(DatenMeister.IObject obj)
         {
             var result = DatenMeister.Extensions.AsSingle(obj.get("finished"));
-            return DatenMeister.Extensions.ToBoolean(result);
+            return DatenMeister.ObjectConversion.ToBoolean(result);
         }
 
         public static void setFinished(DatenMeister.IObject obj, System.Boolean value)
