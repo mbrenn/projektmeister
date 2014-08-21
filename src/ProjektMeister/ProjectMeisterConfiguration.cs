@@ -91,7 +91,7 @@ namespace ProjektMeister
                     Database.Views.TaskDetail, true);
             viewManager.DoAutogenerateForm = true;
 
-            Global.Application.Bind<IViewManager>().ToConstant(viewManager);
+            Injection.Application.Bind<IViewManager>().ToConstant(viewManager);
 
             // Initializes the data 
             var dataDocument = new XDocument(

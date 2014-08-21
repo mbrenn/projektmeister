@@ -43,6 +43,7 @@ namespace ProjektMeister
             ExcelExportGui.AddMenu(wnd);
             TypeManager.Integrate(wnd);
             SimpleReportGui.Integrate(wnd);
+            //DatenMeister.AddOns.ComplianceSuite.WPF.Plugin.Integrate(wnd);
         }
 
         protected override void OnExit(ExitEventArgs e)
