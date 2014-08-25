@@ -10,6 +10,7 @@ using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
 using ProjektMeister.Data;
+using ProjektMeister.Data.Entities.AsObject;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -43,11 +44,6 @@ namespace ProjektMeister
         private ILog logger = new ClassLogger(typeof(ProjectMeisterConfiguration));
 
         /// <summary>
-        /// Stores the meta types
-        /// </summary>
-        private DotNetExtent metaTypes;
-
-        /// <summary>
         /// Performs the full initialization at application start. 
         /// This method is just called once
         /// </summary>
@@ -59,10 +55,8 @@ namespace ProjektMeister
             this.WindowTitle = "Depon.Net - ProjektMeister";
 
             // Initializes the types. This is done once per startup
-            this.metaTypes = new DotNetExtent("datenmeister:///datenmeister/metatypes/");
-            DatenMeister.Entities.AsObject.Uml.Types.Init(this.metaTypes);
-            DatenMeister.Entities.AsObject.FieldInfo.Types.Init(this.metaTypes);
-            DatenMeister.Entities.AsObject.DM.Types.Init(this.metaTypes);
+            DatenMeister.Entities.AsObject.FieldInfo.Types.Init(core.MetaTypeExtent);
+            DatenMeister.Entities.AsObject.DM.Types.Init(core.MetaTypeExtent);
         }
 
         public override void InitializeViewSet(ApplicationCore core)
@@ -70,14 +64,21 @@ namespace ProjektMeister
             logger.Notify("ProjectMeisterConfiguration: InitializeViewSet");
             var pool = PoolResolver.GetDefaultPool();
 
-            // Initializes the database itself
-            this.metaTypes.ReleaseFromPool();
+            // Defines the types of Projekt Meister
+            core.LoadOrCreateByDefault(
+                "Types",
+                ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri,
+                ExtentType.Type,
+                (x) =>
+                {
+                    ProjektMeister.Data.Entities.AsObject.Types.Init(x);                                        
+                },
+                (x) =>
+                {
+                    Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
+                    Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();                    
+                });
 
-            pool.Add(this.metaTypes, null, "MetaTypes", ExtentType.MetaType);
-
-            // Defines the types of Projekkt Meister
-            var typeExtent = ProjektMeister.Data.Entities.AsObject.Types.Init();
-            pool.Add(typeExtent, core.GetApplicationStoragePathFor("types"), "ProjektMeister Types", ExtentType.Type);
             Database.InitViews(pool);
 
             // Initialize the viewManager
@@ -85,13 +86,15 @@ namespace ProjektMeister
             var viewManager = new DefaultViewManager(viewExtent);
             viewManager.Add(
                     ProjektMeister.Data.Entities.AsObject.Types.Person,
-                    Database.Views.PersonDetail, true);
+                    Database.Views.PersonDetail, 
+                    true);
             viewManager.Add(
                     ProjektMeister.Data.Entities.AsObject.Types.Task,
-                    Database.Views.TaskDetail, true);
+                    Database.Views.TaskDetail, 
+                    true);
             viewManager.DoAutogenerateForm = true;
 
-            Injection.Application.Bind<IViewManager>().ToConstant(viewManager);
+            Injection.Application.Rebind<IViewManager>().ToConstant(viewManager);
 
             // Initializes the data 
             var dataDocument = new XDocument(
@@ -108,9 +111,10 @@ namespace ProjektMeister
                 new ReflectiveExtent(
                     () =>
                         PoolResolver.GetDefaultPool()
-                        .GetExtent(ExtentType.Data).First()
-                        .Elements()
-                        .FilterByProperty("finished", false),
+                            .GetExtent(ExtentType.Data).First()
+                            .Elements()
+                            //.FilterByType(Types.Task)
+                            .FilterByProperty("finished", false),
                     DataUri + "/OpenTasks"),
                 null,
                 "Open Tasks",
@@ -222,8 +226,8 @@ namespace ProjektMeister
         {
             if (core != null)
             {
-                core.SaveExtentByUri("datenmeister:///projektmeister/types");
-                core.Dispose();
+                core.SaveExtentByUri(ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri);
+                core.SaveApplicationData();
             }
         }
     }

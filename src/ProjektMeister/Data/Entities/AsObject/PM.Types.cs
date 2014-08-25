@@ -2,32 +2,39 @@ namespace ProjektMeister.Data.Entities.AsObject
 {
     public static partial class Types
     {
+        public const string DefaultExtentUri="datenmeister:///projektmeister/types";
+
         public static DatenMeister.IURIExtent Init()
         {
-            var extent = new DatenMeister.DataProvider.DotNet.DotNetExtent("datenmeister:///projektmeister/types");
+            var extent = new DatenMeister.DataProvider.DotNet.DotNetExtent(DefaultExtentUri);
+            DatenMeister.Entities.AsObject.Uml.Types.AssignTypeMapping(extent);
             Init(extent);
             return extent;
         }
 
-        public static void Init(DatenMeister.DataProvider.DotNet.DotNetExtent extent)
+        public static void Init(DatenMeister.IURIExtent extent)
         {
+            var factory = DatenMeister.DataProvider.Factory.GetFor(extent);
             if(Types.Person == null || true)
             {
-                var type = new DatenMeister.Entities.UML.Type();
-                type.name = "Person";
-                Types.Person = new DatenMeister.DataProvider.DotNet.DotNetObject(extent, type);
+                Types.Person = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Type);
+                DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Person, "Person");
                 extent.Elements().add(Types.Person);
             }
 
             if(Types.Task == null || true)
             {
-                var type = new DatenMeister.Entities.UML.Type();
-                type.name = "Task";
-                Types.Task = new DatenMeister.DataProvider.DotNet.DotNetObject(extent, type);
+                Types.Task = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Type);
+                DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Task, "Task");
                 extent.Elements().add(Types.Task);
             }
 
-            extent.AddDefaultMappings();
+            if(extent is DatenMeister.DataProvider.DotNet.DotNetExtent)
+            {
+                (extent as DatenMeister.DataProvider.DotNet.DotNetExtent).AddDefaultMappings();
+            }
+
+            OnInitCompleted();
         }
 
         public static DatenMeister.IObject Person;
@@ -41,5 +48,6 @@ namespace ProjektMeister.Data.Entities.AsObject
             extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Task), Types.Task);
         }
 
+        static partial void OnInitCompleted();
     }
 }

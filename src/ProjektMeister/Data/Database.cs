@@ -63,7 +63,6 @@ namespace ProjektMeister.Data
 
             ////////////////////////////////////////////
             // List view for persons
-            var personTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.PersonTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
             viewExtent.Elements().add(Views.PersonTable);
             var asObjectPersons = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.PersonTable);
@@ -104,7 +103,6 @@ namespace ProjektMeister.Data
 
             ////////////////////////////////////////////
             // List view for tasks
-            var taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
             Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
             viewExtent.Elements().add(Views.TaskTable);
             var asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
@@ -138,7 +136,6 @@ namespace ProjektMeister.Data
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
             // Detail view for persons
-            var taskDetailView = new DatenMeister.Entities.FieldInfos.FormView();
             Views.TaskDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             Views.TaskDetail.set("name", "Person (Detail)");
             viewExtent.Elements().add(Views.TaskDetail);
@@ -158,11 +155,10 @@ namespace ProjektMeister.Data
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             ////////////////////////////////////////////
-            // List view for tasks
-            taskTableView = new DatenMeister.Entities.FieldInfos.TableView();
-            Views.TaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
-            viewExtent.Elements().add(Views.TaskTable);
-            asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.TaskTable);
+            // List view for all the open tasks
+            Views.OpenTaskTable = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
+            viewExtent.Elements().add(Views.OpenTaskTable);
+            asObjectTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(Views.OpenTaskTable);
 
             asObjectTasks.setFieldInfos(taskColumns);
             asObjectTasks.setName("Open Tasks");
@@ -182,6 +178,12 @@ namespace ProjektMeister.Data
             }
 
             public static IObject TaskTable
+            {
+                get;
+                internal set;
+            }
+
+            public static IObject OpenTaskTable
             {
                 get;
                 internal set;
