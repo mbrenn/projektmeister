@@ -42,6 +42,7 @@ namespace ProjektMeister
             // Exports the entry to an excel item
             ExcelExportGui.AddMenu(wnd);
             TypeManager.Integrate(wnd);
+            ViewSetManager.Integrate(wnd);
             SimpleReportGui.Integrate(wnd);
             //DatenMeister.AddOns.ComplianceSuite.WPF.Plugin.Integrate(wnd);
         }

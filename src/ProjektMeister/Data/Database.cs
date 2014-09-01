@@ -22,8 +22,7 @@ namespace ProjektMeister.Data
     /// Stores the datenmeister instance and all its properties
     /// </summary>
     public class Database
-    {
-        
+    {        
         /// <summary>
         /// Initializes the database
         /// </summary>
