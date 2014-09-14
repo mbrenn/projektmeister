@@ -1,6 +1,6 @@
 namespace ProjektMeister.Data.Entities.AsObject
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.5.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.6.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Person : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -196,7 +196,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.5.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.6.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Task : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
