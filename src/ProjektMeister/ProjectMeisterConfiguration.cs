@@ -71,10 +71,12 @@ namespace ProjektMeister
                 ExtentType.Type,
                 (x) =>
                 {
+                    // Non-successful loading
                     ProjektMeister.Data.Entities.AsObject.Types.Init(x);                                        
                 },
                 (x) =>
                 {
+                    // Successful loading, now assign the types
                     Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
                     Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();                    
                 });
