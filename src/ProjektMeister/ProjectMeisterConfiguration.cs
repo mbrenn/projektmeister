@@ -228,8 +228,8 @@ namespace ProjektMeister
         {
             if (core != null)
             {
+                // Stores the type information 
                 core.SaveExtentByUri(ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri);
-                core.SaveApplicationData();
             }
         }
     }
