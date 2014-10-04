@@ -55,8 +55,6 @@ namespace ProjektMeister
             this.WindowTitle = "Depon.Net - ProjektMeister";
 
             // Initializes the types. This is done once per startup
-            DatenMeister.Entities.AsObject.FieldInfo.Types.Init(core.MetaTypeExtent);
-            DatenMeister.Entities.AsObject.DM.Types.Init(core.MetaTypeExtent);
         }
 
         public override void InitializeViewSet(ApplicationCore core)

@@ -146,11 +146,15 @@ namespace ProjektMeister.Data
                 new DatePicker("Ende", "enddate"),
                 new Checkbox("Finished", "finished"),
                 new ReferenceByRef("Assigned", "assignedPerson", ProjectMeisterConfiguration.DataUri + "?type=Person", "name"),
-                new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name"),
+                new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name")
+                {
+                    tableViewInfo = Views.TaskTable
+                },
                 new TextField("Comment", "comment")
                 {
                     isMultiline = true
                 });
+
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
 
             ////////////////////////////////////////////
