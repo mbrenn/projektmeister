@@ -134,6 +134,30 @@ namespace ProjektMeister.Data
             asObjectTasks.setAllowDelete(true);
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
+            ///////////////////////////////////////////////////
+            // Short list for the tasks
+            var shortTasks = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
+            var asObjectShortTasks = new DatenMeister.Entities.AsObject.FieldInfo.TableView(shortTasks);
+
+            var shortTaskColumns = new DotNetSequence(
+                ViewHelper.ViewTypes,
+                new TextField("Name", "name")
+                {
+                    columnWidth = 200
+                },
+                new TextField("Start", "startdate")
+                {
+                    isDateTime = true
+                },
+                new TextField("Ende", "enddate")
+                {
+                    isDateTime = true
+                });
+            asObjectShortTasks.setFieldInfos(shortTaskColumns);
+            asObjectShortTasks.setName("Tasks (short)");
+            asObjectShortTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
+
+            ///////////////////////////////////////////////////
             // Detail view for persons
             Views.TaskDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             Views.TaskDetail.set("name", "Person (Detail)");
@@ -148,7 +172,7 @@ namespace ProjektMeister.Data
                 new ReferenceByRef("Assigned", "assignedPerson", ProjectMeisterConfiguration.DataUri + "?type=Person", "name"),
                 new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name")
                 {
-                    tableViewInfo = Views.TaskTable
+                    tableViewInfo = shortTasks
                 },
                 new TextField("Comment", "comment")
                 {
