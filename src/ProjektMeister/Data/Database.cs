@@ -70,7 +70,7 @@ namespace ProjektMeister.Data
                 ViewHelper.ViewTypes,
                 new TextField("First Name", "firstname"),
                 new TextField("Name", "name"),
-                new TextField("E-Mail", "email"),
+                new HyperLinkColumn("E-Mail", "email"),
                 new TextField("Phone", "phone"),
                 new TextField("Job", "title"));
             asObjectPersons.setFieldInfos(personColumns);
@@ -96,7 +96,8 @@ namespace ProjektMeister.Data
                 new TextField("Job", "title"),
                 new TextField("Comment", "comment")
                 {
-                    isMultiline = true
+                    isMultiline = true,
+                    height = -1
                 });
             Views.PersonDetail.set("fieldInfos", personDetailColumns);
 
@@ -172,11 +173,12 @@ namespace ProjektMeister.Data
                 new ReferenceByRef("Assigned", "assignedPerson", ProjectMeisterConfiguration.DataUri + "?type=Person", "name"),
                 new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name")
                 {
-                    tableViewInfo = shortTasks
+                    //tableViewInfo = shortTasks
                 },
                 new TextField("Comment", "comment")
                 {
-                    isMultiline = true
+                    isMultiline = true,
+                    height = -1
                 });
 
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);

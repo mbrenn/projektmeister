@@ -17,17 +17,18 @@ namespace ProjektMeister.Data.Entities.AsObject
             var factory = DatenMeister.DataProvider.Factory.GetFor(extent);
             if(Types.Person == null || true)
             {
-                Types.Person = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Type);
+                Types.Person = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
                 DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Person, "Person");
                 extent.Elements().add(Types.Person);
             }
 
             if(Types.Task == null || true)
             {
-                Types.Task = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Type);
+                Types.Task = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
                 DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Task, "Task");
                 extent.Elements().add(Types.Task);
             }
+
 
             if(extent is DatenMeister.DataProvider.DotNet.DotNetExtent)
             {
@@ -35,6 +36,70 @@ namespace ProjektMeister.Data.Entities.AsObject
             }
 
             OnInitCompleted();
+
+            {
+                // Person.name
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "name");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Person, property);
+            }
+
+            {
+                // Person.email
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "email");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Person, property);
+            }
+
+            {
+                // Person.phone
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "phone");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Person, property);
+            }
+
+            {
+                // Person.title
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "title");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Person, property);
+            }
+
+            {
+                // Task.name
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "name");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
+            {
+                // Task.startdate
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "startdate");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
+            {
+                // Task.enddate
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "enddate");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
+            {
+                // Task.responsible
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "responsible");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
+            {
+                // Task.finished
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "finished");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
         }
 
         public static DatenMeister.IObject Person;
