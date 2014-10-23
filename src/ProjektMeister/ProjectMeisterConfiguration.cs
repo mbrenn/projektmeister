@@ -49,7 +49,7 @@ namespace ProjektMeister
         /// </summary>
         public override void InitializeForBootUp(ApplicationCore core)
         {
-            DatenMeister.AddOns.IconRepository.Integrate.Perform(core);
+            DatenMeister.WPF.Modules.IconRepository.Integrate.Perform(core);
 
             logger.Notify("ProjectMeisterConfiguration: InitializeForBootUp");
 
