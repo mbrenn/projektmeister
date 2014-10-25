@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>resources\icons.ico</ApplicationIcon>
+    <ApplicationIcon>icons.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ninject">
@@ -128,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\icons.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
