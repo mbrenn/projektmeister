@@ -37,7 +37,7 @@ namespace ProjektMeister
             
             // Other menu helpers
             RecentFileIntegration.AddSupport(wnd);
-            MenuHelper.AddExtentView(wnd);
+            AllExtentView.AddExtentView(wnd);
 
             // Exports the entry to an excel item
             ExcelExportGui.AddMenu(wnd);

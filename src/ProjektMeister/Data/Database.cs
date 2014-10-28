@@ -168,12 +168,12 @@ namespace ProjektMeister.Data
                 ViewHelper.ViewTypes,
                 new TextField("Name", "name"),
                 new DatePicker("Start", "startdate"),
-                new DatePicker("Ende", "enddate"),
+                new DatePicker("End", "enddate"),
                 new Checkbox("Finished", "finished"),
                 new ReferenceByRef("Assigned", "assignedPerson", ProjectMeisterConfiguration.DataUri + "?type=Person", "name"),
                 new MultiReferenceField("Predecessors", "predecessors", ProjectMeisterConfiguration.DataUri + "?type=Task", "name")
                 {
-                    //tableViewInfo = shortTasks
+                    tableViewInfo = shortTasks
                 },
                 new TextField("Comment", "comment")
                 {

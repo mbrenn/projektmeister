@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="91.814471"
-     inkscape:cy="251.79487"
+     inkscape:zoom="11.313709"
+     inkscape:cx="585.42403"
+     inkscape:cy="715.08253"
      inkscape:document-units="px"
-     inkscape:current-layer="g3144-2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
@@ -182,9 +182,9 @@
     <g
        transform="translate(1.8425654,471.64256)"
        id="g3144-2"
-       inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon32.png"
-       inkscape:export-xdpi="7.1842842"
-       inkscape:export-ydpi="7.1842842">
+       inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon64.png"
+       inkscape:export-xdpi="14.368568"
+       inkscape:export-ydpi="14.368568">
       <rect
          style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:2.64599991;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
          id="rect2996-9"
@@ -332,6 +332,45 @@
            d="m 426.54784,119.67523 33.94003,37.15961"
            style="fill:none;stroke:#ffffff;stroke-width:20;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;marker-end:none" />
       </g>
+    </g>
+    <g
+       transform="matrix(0.03967472,0,0,0.03967965,611.65919,320.09552)"
+       id="g3144-2-6"
+       inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon16.png"
+       inkscape:export-xdpi="85.698471"
+       inkscape:export-ydpi="85.698471">
+      <rect
+         style="fill:#0000ff;fill-opacity:1;stroke:#000000;stroke-width:25.20340095;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect2996-9-5"
+         width="398.25443"
+         height="398.25443"
+         x="50.558208"
+         y="21.978107"
+         inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon32.png"
+         inkscape:export-xdpi="7.1837249"
+         inkscape:export-ydpi="7.1837249" />
+      <rect
+         style="fill:none;stroke:#ffffff;stroke-width:37.80926433;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3766-13-2"
+         width="259.32318"
+         height="141.85976"
+         x="70.311256"
+         y="126.61749"
+         transform="matrix(0.98773622,-0.15613187,0.17682449,0.9842424,0,0)"
+         inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon32.png"
+         inkscape:export-xdpi="7.1837249"
+         inkscape:export-ydpi="7.1837249" />
+      <rect
+         style="fill:none;stroke:#ffffff;stroke-width:37.83594836;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         id="rect3766-1-5-8"
+         width="234.46065"
+         height="152.50328"
+         x="248.6642"
+         y="22.547323"
+         transform="matrix(0.89448464,0.44709868,-0.39532044,0.91854328,0,0)"
+         inkscape:export-filename="D:\Projekte\DatenMeister\projektmeister\assets\icons\Icon32.png"
+         inkscape:export-xdpi="7.1837249"
+         inkscape:export-ydpi="7.1837249" />
     </g>
   </g>
 </svg>
