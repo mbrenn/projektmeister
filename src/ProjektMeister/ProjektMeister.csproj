@@ -67,6 +67,7 @@
     <Compile Include="Data\Database.cs" />
     <Compile Include="Data\Entities\AsObject\PM.Objects.cs" />
     <Compile Include="Data\Entities\AsObject\PM.Types.cs" />
+    <Compile Include="Data\Entities\Comment.cs" />
     <Compile Include="Data\Entities\Person.cs" />
     <Compile Include="Data\Entities\Task.cs" />
     <Compile Include="Localization_ProjektMeister.Designer.cs">

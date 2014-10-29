@@ -15,6 +15,13 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static void Init(DatenMeister.IURIExtent extent)
         {
             var factory = DatenMeister.DataProvider.Factory.GetFor(extent);
+            if(Types.Comment == null || true)
+            {
+                Types.Comment = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
+                DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Comment, "Comment");
+                extent.Elements().add(Types.Comment);
+            }
+
             if(Types.Person == null || true)
             {
                 Types.Person = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
@@ -36,6 +43,27 @@ namespace ProjektMeister.Data.Entities.AsObject
             }
 
             OnInitCompleted();
+
+            {
+                // Comment.created
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "created");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+            }
+
+            {
+                // Comment.author
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "author");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+            }
+
+            {
+                // Comment.body
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "body");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+            }
 
             {
                 // Person.name
@@ -102,6 +130,8 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         }
 
+        public static DatenMeister.IObject Comment;
+
         public static DatenMeister.IObject Person;
 
         public static DatenMeister.IObject Task;
@@ -109,6 +139,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static void AssignTypeMapping(DatenMeister.DataProvider.DotNet.DotNetExtent extent)
         {
+            extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Comment), Types.Comment);
             extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Person), Types.Person);
             extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Task), Types.Task);
         }
