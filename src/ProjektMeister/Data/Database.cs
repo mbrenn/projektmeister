@@ -109,6 +109,10 @@ namespace ProjektMeister.Data
 
             var taskColumns = new DotNetSequence(
                 ViewHelper.ViewTypes,
+                new TextField("Category", "category")
+                {
+                    columnWidth = 100
+                },
                 new TextField("Name", "name")
                 {
                     columnWidth = 200
@@ -159,7 +163,7 @@ namespace ProjektMeister.Data
             asObjectShortTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
             ///////////////////////////////////////////////////
-            // Detail view for persons
+            // Detail view for tasks
             Views.TaskDetail = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.FormView);
             Views.TaskDetail.set("name", "Person (Detail)");
             viewExtent.Elements().add(Views.TaskDetail);
@@ -167,6 +171,10 @@ namespace ProjektMeister.Data
             var taskDetailColumns = new DotNetSequence(
                 ViewHelper.ViewTypes,
                 new TextField("Name", "name"),
+                new ReferenceByConstant("Category", "category")
+                 {
+                     values = new object[] { "Milestone", "Task" }
+                 },
                 new DatePicker("Start", "startdate"),
                 new DatePicker("End", "enddate"),
                 new Checkbox("Finished", "finished"),
