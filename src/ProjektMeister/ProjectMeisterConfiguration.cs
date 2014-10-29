@@ -116,6 +116,7 @@ namespace ProjektMeister
                             .GetExtent(ExtentType.Data).First()
                             .Elements()
                             //.FilterByType(Types.Task)
+                            .FilterByProperty("category", "Task")
                             .FilterByProperty("finished", false),
                     DataUri + "/OpenTasks"),
                 null,
