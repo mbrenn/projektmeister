@@ -128,6 +128,13 @@ namespace ProjektMeister.Data.Entities.AsObject
                 DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
             }
 
+            {
+                // Task.comments
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "comments");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Task, property);
+            }
+
         }
 
         public static DatenMeister.IObject Comment;

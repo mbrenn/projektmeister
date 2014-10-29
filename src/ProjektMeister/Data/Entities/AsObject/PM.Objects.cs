@@ -586,6 +586,44 @@ namespace ProjektMeister.Data.Entities.AsObject
             obj.set("finished", value);
         }
 
+        public System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> getComments()
+        {
+            return getComments(this);
+        }
+
+        public void setComments(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> value)
+        {
+            setComments(this, value);
+        }
+
+        public void pushComment(ProjektMeister.Data.Entities.Comment value)
+        {
+            pushComment(this, value);
+        }
+
+        public static System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> getComments(DatenMeister.IObject obj)
+        {
+            var result = DatenMeister.Extensions.AsEnumeration<ProjektMeister.Data.Entities.Comment>(obj.get("comments"));
+            return (result is System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>) ? ((System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>) result) : default(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>);
+        }
+
+        public static void setComments(DatenMeister.IObject obj, System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> value)
+        {
+            obj.set("comments", value);
+        }
+
+        public static void pushComment(DatenMeister.IObject obj, DatenMeister.IObject value)
+        {
+            var list = DatenMeister.Extensions.AsReflectiveCollection(obj.get("comments"));
+            list.Add(value);
+        }
+
+        public static void pushComment(DatenMeister.IObject obj, ProjektMeister.Data.Entities.Comment value)
+        {
+            var list = DatenMeister.Extensions.AsReflectiveCollection(obj.get("comments"));
+            list.Add(value);
+        }
+
     }
 
 }

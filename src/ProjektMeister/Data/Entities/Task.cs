@@ -37,5 +37,11 @@ namespace ProjektMeister.Data.Entities
             get;
             set;
         }
+
+        public IList<Comment> comments
+        {
+            get;
+            set;
+        }
     }
 }
