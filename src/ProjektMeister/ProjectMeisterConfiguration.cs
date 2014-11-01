@@ -188,6 +188,7 @@ namespace ProjektMeister
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My First Task");
+                person.set("category", "Task");
                 person.set("startdate", DateTime.Now);
                 person.set("enddate", DateTime.Now.AddMonths(1));
                 person.set("finished", false);
@@ -196,6 +197,7 @@ namespace ProjektMeister
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My Second Task");
+                person.set("category", "Task");
                 person.set("startdate", DateTime.Now.AddMonths(1));
                 person.set("enddate", DateTime.Now.AddMonths(2));
                 person.set("finished", false);
@@ -204,6 +206,7 @@ namespace ProjektMeister
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My Third Task");
+                person.set("category", "Task");
                 person.set("startdate", DateTime.Now.AddMonths(3));
                 person.set("enddate", DateTime.Now.AddMonths(4));
                 person.set("finished", false);
@@ -211,8 +214,9 @@ namespace ProjektMeister
                 person = factory.CreateInExtent(
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Task);
-                person.set("name", "My Fourth Task");
-                person.set("startdate", DateTime.Now.AddMonths(4));
+                person.set("name", "Final Delivery");
+                person.set("category", "Milestone");
+                person.set("startdate", DateTime.Now.AddMonths(5));
                 person.set("enddate", DateTime.Now.AddMonths(5));
                 person.set("finished", false);
             }
