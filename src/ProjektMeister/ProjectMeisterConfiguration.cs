@@ -9,6 +9,7 @@ using DatenMeister.Logic;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
+using Ninject;
 using ProjektMeister.Data;
 using ProjektMeister.Data.Entities.AsObject;
 using System;
@@ -71,15 +72,17 @@ namespace ProjektMeister
                 ExtentType.Type,
                 (x) =>
                 {
-                    // Non-successful loading
-                    ProjektMeister.Data.Entities.AsObject.Types.Init(x);                                        
+                    // Non-successful loading, we need to initialize everything
+                    ProjektMeister.Data.Entities.AsObject.Types.Init(x);     
                 },
                 (x) =>
                 {
-                    // Successful loading, now assign the types
+                    // Successful loading, now assign the types to the internal database
                     Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
                     Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();                    
                 });
+
+            // Injection.Application.Get<DatenMeister.AddOns.Data.FileSystem.Init>().Do(pool);
 
             Database.InitViews(pool);
 

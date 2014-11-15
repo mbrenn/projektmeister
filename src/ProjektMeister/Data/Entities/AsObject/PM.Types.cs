@@ -1,5 +1,7 @@
 namespace ProjektMeister.Data.Entities.AsObject
 {
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpTypeDefinitionFactory", "1.0.7.0")]
+    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public static partial class Types
     {
         public const string DefaultExtentUri="datenmeister:///projektmeister/types";
@@ -139,9 +141,14 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static void AssignTypeMapping(DatenMeister.DataProvider.DotNet.DotNetExtent extent)
         {
-            extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Comment), Types.Comment);
-            extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Person), Types.Person);
-            extent.Mapping.Add(typeof(ProjektMeister.Data.Entities.Task), Types.Task);
+            AssignTypeMapping(extent.Mapping);
+        }
+
+        public static void AssignTypeMapping(DatenMeister.DataProvider.DotNet.IMapsMetaClassFromDotNet mapping)
+        {
+            mapping.Add(typeof(ProjektMeister.Data.Entities.Comment), Types.Comment);
+            mapping.Add(typeof(ProjektMeister.Data.Entities.Person), Types.Person);
+            mapping.Add(typeof(ProjektMeister.Data.Entities.Task), Types.Task);
         }
 
         static partial void OnInitCompleted();
