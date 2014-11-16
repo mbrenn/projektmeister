@@ -56,8 +56,6 @@ namespace ProjektMeister
 
             this.ApplicationName = "ProjektMeister";
             this.WindowTitle = "Depon.Net - ProjektMeister";
-
-            // Initializes the types. This is done once per startup
         }
 
         public override void InitializeViewSet(ApplicationCore core)
