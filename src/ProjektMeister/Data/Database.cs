@@ -3,11 +3,14 @@ using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Views;
 using DatenMeister.DataProvider.Xml;
+using DatenMeister.Entities.DM.Primitives;
 using DatenMeister.Entities.FieldInfos;
 using DatenMeister.Logic;
+using DatenMeister.Logic.MethodProvider;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
+using Ninject;
 using ProjektMeister.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -138,6 +141,22 @@ namespace ProjektMeister.Data
             asObjectTasks.setAllowEdit(true);
             asObjectTasks.setAllowDelete(true);
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
+
+            var methodProvider = Injection.Application.Get<IMethodProvider>();
+            methodProvider.AddInstanceMethod(
+                asObjectTasks.Value,
+                "setBackgroundColor",
+                new Func<IObject, Color>(
+                    value =>
+                    {
+                        return new Color()
+                        {
+                            R = 1.0,
+                            G = 0.0,
+                            B = 1.0,
+                            A = 1.0
+                        };
+                    }));
 
             ///////////////////////////////////////////////////
             // Short list for the tasks
