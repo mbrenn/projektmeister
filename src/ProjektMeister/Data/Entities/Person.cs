@@ -8,6 +8,12 @@ namespace ProjektMeister.Data.Entities
 {
     public class Person
     {
+        public string firstname
+        {
+            get;
+            set;
+        }
+
         public string name
         {
             get;

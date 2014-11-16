@@ -26,33 +26,6 @@ namespace ProjektMeister.Data
     /// </summary>
     public class Database
     {        
-        /// <summary>
-        /// Initializes the database
-        /// </summary>
-        private static XmlExtent AddDataExtent()
-        {
-            var pool = PoolResolver.GetDefaultPool();
-
-            var dataDocument = new XDocument();
-            var xmlProjectExtent = new XmlExtent(dataDocument, ProjectMeisterConfiguration.DataUri);
-            var xmlSettings = new XmlSettings();
-            xmlSettings.SkipRootNode = true;
-            xmlSettings.Mapping.Add(
-                "person", 
-                ProjektMeister.Data.Entities.AsObject.Types.Person, 
-                (x) => x.Elements().Elements("persons").First());
-            xmlSettings.Mapping.Add(
-                "task",
-                ProjektMeister.Data.Entities.AsObject.Types.Task, 
-                (x) => x.Elements().Elements("tasks").First());
-
-            xmlProjectExtent.Settings = xmlSettings;
-
-            pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent, ExtentType.Data);
-
-            return xmlProjectExtent;
-        }
-
         public static void InitViews(IPool pool)
         {
             var viewExtent = new XmlExtent(new XDocument(new XElement("views")), ProjectMeisterConfiguration.ViewUri);

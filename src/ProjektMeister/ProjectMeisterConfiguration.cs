@@ -6,6 +6,7 @@ using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Xml;
 using DatenMeister.Logic;
+using DatenMeister.Logic.TypeResolver;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
 using DatenMeister.Transformations;
@@ -73,10 +74,14 @@ namespace ProjektMeister
                 },
                 (x) =>
                 {
+                    var typeResolver = Injection.Application.Get<ITypeResolver>();
                     // Successful loading, now assign the types to the internal database
-                    Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
-                    Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();                    
+                    Types.Person = typeResolver.GetType("Person");
+                    Types.Task = typeResolver.GetType("Task");
                 });
+
+            Ensure.That(Types.Task != null, "Type for Person is not set");
+            Ensure.That(Types.Person != null, "Type for Task is not set");
 
             // Injection.Application.Get<DatenMeister.AddOns.Data.FileSystem.Init>().Do(pool);
             Database.InitViews(pool);
@@ -162,8 +167,10 @@ namespace ProjektMeister
 
             for (var n = 0; n < 1; n++)
             {
+                
                 // Create some persons, just for test
                 var factory = Factory.GetFor(projectExtent);
+
                 var person = factory.CreateInExtent(
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Person);
