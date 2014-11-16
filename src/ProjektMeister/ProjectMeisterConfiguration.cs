@@ -50,8 +50,6 @@ namespace ProjektMeister
         /// </summary>
         public override void InitializeForBootUp(ApplicationCore core)
         {
-            DatenMeister.WPF.Modules.IconRepository.Integrate.Perform(core);
-
             logger.Notify("ProjectMeisterConfiguration: InitializeForBootUp");
 
             this.ApplicationName = "ProjektMeister";
@@ -81,10 +79,9 @@ namespace ProjektMeister
                 });
 
             // Injection.Application.Get<DatenMeister.AddOns.Data.FileSystem.Init>().Do(pool);
-
             Database.InitViews(pool);
 
-            // Initialize the viewManager
+            // Initialize the viewManager, which assigns view layouts to objects
             var viewExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.View).First();
             var viewManager = new DefaultViewManager(viewExtent);
             viewManager.Add(
@@ -95,7 +92,7 @@ namespace ProjektMeister
                     ProjektMeister.Data.Entities.AsObject.Types.Task,
                     Database.Views.TaskDetail, 
                     true);
-            viewManager.DoAutogenerateForm = true;
+            viewManager.DoAutogenerateForm = true; // Allow the autogeneration of forms
 
             Injection.Application.Rebind<IViewManager>().ToConstant(viewManager);
 
@@ -139,6 +136,7 @@ namespace ProjektMeister
             var dataExtent = pool.GetExtent(ExtentType.Data).First() as XmlExtent;
             Ensure.That(dataExtent != null, "DataExtent is not XmlExtent");
 
+            // Applies the correlation from xml nodes to object types
             var xmlSettings = new XmlSettings();
             xmlSettings.SkipRootNode = true;
             xmlSettings.Mapping.Add(
@@ -160,7 +158,6 @@ namespace ProjektMeister
         {
             logger.Notify("ProjectMeisterConfiguration: InitializeForExampleData");
 
-            var viewExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.View).First();
             var projectExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.Data).First();
 
             for (var n = 0; n < 1; n++)

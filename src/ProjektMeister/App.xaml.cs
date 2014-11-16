@@ -1,4 +1,5 @@
 ﻿using BurnSystems.ObjectActivation;
+using DatenMeister.AddOns;
 using DatenMeister.AddOns.Export.Excel;
 using DatenMeister.AddOns.Export.Report.Simple;
 using DatenMeister.AddOns.Views;
@@ -28,32 +29,13 @@ namespace ProjektMeister
             BurnSystems.Logging.Log.TheLog.FilterLevel = BurnSystems.Logging.LogLevel.Everything;
             BurnSystems.Logging.Log.TheLog.AddLogProvider(new BurnSystems.Logging.DebugProvider());
 
+            var result = DefaultModules.DefaultStartWith<ProjectMeisterConfiguration>(this);
+            this.core = result.Core;
             base.OnStartup(e);
-
-            this.core = new ApplicationCore();
-            this.core.Start<ProjectMeisterConfiguration>();
-
-            var wnd = WindowFactory.CreateWindow(this.core);
-            
-            // Other menu helpers
-            RecentFileIntegration.AddSupport(wnd);
-            AllExtentView.AddExtentView(wnd);
-
-            // Exports the entry to an excel item
-            ExcelExportGui.AddMenu(wnd);
-            TypeManager.Integrate(wnd);
-            ViewSetManager.Integrate(wnd);
-            SimpleReportGui.Integrate(wnd);
-            DatenMeister.AddOns.ComplianceSuite.WPF.Plugin.Integrate(wnd);
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
-            if (this.core.Settings != null)
-            {
-                this.core.StoreViewSet();
-            }
-
             base.OnExit(e);
         }
     }
