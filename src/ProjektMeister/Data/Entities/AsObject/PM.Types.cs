@@ -1,6 +1,6 @@
 namespace ProjektMeister.Data.Entities.AsObject
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpTypeDefinitionFactory", "1.0.7.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpTypeDefinitionFactory", "1.0.8.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public static partial class Types
     {
@@ -65,6 +65,13 @@ namespace ProjektMeister.Data.Entities.AsObject
                 var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
                 DatenMeister.Entities.AsObject.Uml.Property.setName(property, "body");
                 DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+            }
+
+            {
+                // Person.firstname
+                var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
+                DatenMeister.Entities.AsObject.Uml.Property.setName(property, "firstname");
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Person, property);
             }
 
             {

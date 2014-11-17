@@ -121,14 +121,24 @@ namespace ProjektMeister.Data
                 "setBackgroundColor",
                 new Func<IObject, Color>(
                     value =>
-                    {
-                        return new Color()
+                    {                        
+                        var endDate = ObjectConversion.ToDateTime(value.get("enddate").AsSingle());
+                        var isFinsihed = ObjectConversion.ToBoolean(value.get("finished").AsSingle());
+
+                        if (endDate < DateTime.Now &&!isFinsihed)
                         {
-                            R = 1.0,
-                            G = 0.0,
-                            B = 1.0,
-                            A = 1.0
-                        };
+                            return new Color()
+                            {
+                                R = 1.0,
+                                G = 0.8,
+                                B = 0.8,
+                                A = 1.0
+                            };
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }));
 
             ///////////////////////////////////////////////////

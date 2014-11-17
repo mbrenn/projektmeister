@@ -166,21 +166,19 @@ namespace ProjektMeister
             var projectExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.Data).First();
 
             for (var n = 0; n < 1; n++)
-            {
-                
+            {   
                 // Create some persons, just for test
                 var factory = Factory.GetFor(projectExtent);
 
-                var person = factory.CreateInExtent(
-                    projectExtent,
-                    ProjektMeister.Data.Entities.AsObject.Types.Person);
-                person.set("firstname", "Martin");
-                person.set("name", "Brenn");
-                person.set("email", "brenn@depon.net");
-                person.set("phone", "0151/560");
-                person.set("title", "Project Lead");
+                var realPerson = Person.createTyped(factory);
+                realPerson.setFirstname("Martin");
+                realPerson.setName("Brenn");
+                realPerson.setEmail("brenn@depon.net");
+                realPerson.setPhone("0151/560");
+                realPerson.setTitle("Project Lead");
+                projectExtent.Elements().add(realPerson.Value);
 
-                person = factory.CreateInExtent(
+                var person = factory.CreateInExtent(
                     projectExtent,
                     ProjektMeister.Data.Entities.AsObject.Types.Person);
                 person.set("firstname", "Martina");
@@ -194,7 +192,7 @@ namespace ProjektMeister
                     ProjektMeister.Data.Entities.AsObject.Types.Task);
                 person.set("name", "My First Task");
                 person.set("startdate", DateTime.Now);
-                person.set("enddate", DateTime.Now.AddMonths(1));
+                person.set("enddate", DateTime.Now.AddMonths(-1));
                 person.set("finished", false);
 
                 person = factory.CreateInExtent(

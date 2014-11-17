@@ -1,6 +1,6 @@
 namespace ProjektMeister.Data.Entities.AsObject
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.7.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Comment : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -13,6 +13,11 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static DatenMeister.IObject create(DatenMeister.IFactory factory)
         {
             return factory.create(ProjektMeister.Data.Entities.AsObject.Types.Comment);
+        }
+
+        public static Comment createTyped(DatenMeister.IFactory factory)
+        {
+            return new Comment(create(factory));
         }
 
         #region IObject Implementation
@@ -175,7 +180,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.7.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Person : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -188,6 +193,11 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static DatenMeister.IObject create(DatenMeister.IFactory factory)
         {
             return factory.create(ProjektMeister.Data.Entities.AsObject.Types.Person);
+        }
+
+        public static Person createTyped(DatenMeister.IFactory factory)
+        {
+            return new Person(create(factory));
         }
 
         #region IObject Implementation
@@ -285,6 +295,27 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         #endregion
 
+        public System.String getFirstname()
+        {
+            return getFirstname(this);
+        }
+
+        public void setFirstname(System.String value)
+        {
+            setFirstname(this, value);
+        }
+
+        public static System.String getFirstname(DatenMeister.IObject obj)
+        {
+            var result = DatenMeister.Extensions.AsSingle(obj.get("firstname"));
+            return DatenMeister.ObjectConversion.ToString(result);
+        }
+
+        public static void setFirstname(DatenMeister.IObject obj, System.String value)
+        {
+            obj.set("firstname", value);
+        }
+
         public System.String getName()
         {
             return getName(this);
@@ -371,7 +402,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.7.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Task : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -384,6 +415,11 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static DatenMeister.IObject create(DatenMeister.IFactory factory)
         {
             return factory.create(ProjektMeister.Data.Entities.AsObject.Types.Task);
+        }
+
+        public static Task createTyped(DatenMeister.IFactory factory)
+        {
+            return new Task(create(factory));
         }
 
         #region IObject Implementation
