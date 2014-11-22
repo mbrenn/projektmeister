@@ -39,6 +39,11 @@ namespace ProjektMeister
         #endregion
 
         /// <summary>
+        /// Stores the xml settings
+        /// </summary>
+        private XmlSettings xmlSettings;
+
+        /// <summary>
         /// Stores the logger
         /// </summary>
         private ILog logger = new ClassLogger(typeof(ProjectMeisterConfiguration));
@@ -57,34 +62,53 @@ namespace ProjektMeister
             this.WindowTitle = "Depon.Net - ProjektMeister";
 
             // Initializes the types. This is done once per startup
+            this.xmlSettings = new XmlSettings();
+            this.xmlSettings.SkipRootNode = true;
+            this.xmlSettings.Mapping.Add(
+                "person",
+                ProjektMeister.Data.Entities.AsObject.Types.Person,
+                (x) => x.Elements().Elements("persons").First());
+            this.xmlSettings.Mapping.Add(
+                "task",
+                ProjektMeister.Data.Entities.AsObject.Types.Task,
+                (x) => x.Elements().Elements("tasks").First());
         }
 
         public override void InitializeViewSet(ApplicationCore core)
         {
             logger.Notify("ProjectMeisterConfiguration: InitializeViewSet");
             var pool = PoolResolver.GetDefaultPool();
+            var manager = WorkbenchManager.Get();
 
             // Defines the types of Projekt Meister
-            core.LoadOrCreateByDefault(
-                "Types",
+            var storagePath = core.GetApplicationStoragePathFor("Types");
+            manager.LoadOrCreateExtent(
+                storagePath,
                 ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri,
-                ExtentType.Type,
-                (x) =>
+                new ExtentParam("Types", ExtentType.Type, storagePath)
                 {
-                    // Non-successful loading
-                    ProjektMeister.Data.Entities.AsObject.Types.Init(x);                                        
+                    DataProviderSettings = XmlSettings.Empty
+                },
+                () =>
+                {
+                    var xmlExtent = new XmlExtent(
+                        new XDocument(new XElement("Types")),
+                        ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri, 
+                        XmlSettings.Empty);
+                    ProjektMeister.Data.Entities.AsObject.Types.Init(xmlExtent);
+                    return xmlExtent;
                 },
                 (x) =>
                 {
                     // Successful loading, now assign the types
                     Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
-                    Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();                    
+                    Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();
                 });
 
             Database.InitViews(pool);
 
             // Initialize the viewManager
-            var viewExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.View).First();
+            var viewExtent = PoolResolver.GetDefaultPool().GetExtents(ExtentType.View).First();
             var viewManager = new DefaultViewManager(viewExtent);
             viewManager.Add(
                     ProjektMeister.Data.Entities.AsObject.Types.Person,
@@ -113,7 +137,7 @@ namespace ProjektMeister
                 new ReflectiveExtent(
                     () =>
                         PoolResolver.GetDefaultPool()
-                            .GetExtent(ExtentType.Data).First()
+                            .GetExtents(ExtentType.Data).First()
                             .Elements()
                             //.FilterByType(Types.Task)
                             .FilterByProperty("category", "Task")
@@ -135,20 +159,9 @@ namespace ProjektMeister
         {
             logger.Notify("ProjectMeisterConfiguration: Initialize After Loading");
             var pool = PoolResolver.GetDefaultPool();
-            var dataExtent = pool.GetExtent(ExtentType.Data).First() as XmlExtent;
+            var dataExtent = pool.GetExtents(ExtentType.Data).First() as XmlExtent;
             Ensure.That(dataExtent != null, "DataExtent is not XmlExtent");
-
-            var xmlSettings = new XmlSettings();
-            xmlSettings.SkipRootNode = true;
-            xmlSettings.Mapping.Add(
-                "person",
-                ProjektMeister.Data.Entities.AsObject.Types.Person,
-                (x) => x.Elements().Elements("persons").First());
-            xmlSettings.Mapping.Add(
-                "task",
-                ProjektMeister.Data.Entities.AsObject.Types.Task,
-                (x) => x.Elements().Elements("tasks").First());
-            dataExtent.Settings = xmlSettings;
+            dataExtent.Settings = this.xmlSettings;
         } 
 
         /// <summary>
@@ -159,8 +172,8 @@ namespace ProjektMeister
         {
             logger.Notify("ProjectMeisterConfiguration: InitializeForExampleData");
 
-            var viewExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.View).First();
-            var projectExtent = PoolResolver.GetDefaultPool().GetExtent(ExtentType.Data).First();
+            var viewExtent = PoolResolver.GetDefaultPool().GetExtents(ExtentType.View).First();
+            var projectExtent = PoolResolver.GetDefaultPool().GetExtents(ExtentType.Data).First();
 
             for (var n = 0; n < 1; n++)
             {
@@ -226,7 +239,7 @@ namespace ProjektMeister
         }
 
         /// <summary>
-        /// Stores the view set
+        /// Stores the workbench
         /// </summary>
         /// <param name="core">Core to be used</param>
         public override void StoreViewSet(ApplicationCore core)

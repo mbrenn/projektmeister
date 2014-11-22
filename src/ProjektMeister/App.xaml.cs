@@ -49,10 +49,7 @@ namespace ProjektMeister
 
         protected override void OnExit(ExitEventArgs e)
         {
-            if (this.core.Settings != null)
-            {
-                this.core.StoreViewSet();
-            }
+            this.core.Stop();
 
             base.OnExit(e);
         }
