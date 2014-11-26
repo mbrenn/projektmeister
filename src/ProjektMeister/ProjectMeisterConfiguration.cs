@@ -63,7 +63,7 @@ namespace ProjektMeister
 
             // Initializes the types. This is done once per startup
             this.xmlSettings = new XmlSettings();
-            this.xmlSettings.SkipRootNode = true;
+            this.xmlSettings.OnlyUseAssignedNodes = true;
             this.xmlSettings.Mapping.Add(
                 "person",
                 ProjektMeister.Data.Entities.AsObject.Types.Person,
@@ -75,94 +75,103 @@ namespace ProjektMeister
         }
 
         public override void InitializeViewSet(ApplicationCore core)
+        {         
+            logger.Notify("ProjectMeisterConfiguration: InitializeViewSet");         
+        }
+
+        public override void FinalizeExtents(ApplicationCore core, bool wasLoading)
         {
-            logger.Notify("ProjectMeisterConfiguration: InitializeViewSet");
+            var workBenchManager = WorkbenchManager.Get();
+            logger.Notify("ProjectMeisterConfiguration: FinalizeExtents");           
+
             var pool = PoolResolver.GetDefaultPool();
-            var manager = WorkbenchManager.Get();
-
-            // Defines the types of Projekt Meister
+            
+            ////////////////////////////////////////////////
+            // Checks and or defines the types
             var storagePath = core.GetApplicationStoragePathFor("Types");
-            manager.LoadOrCreateExtent(
-                storagePath,
-                ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri,
-                new ExtentParam("Types", ExtentType.Type, storagePath)
-                {
-                    DataProviderSettings = XmlSettings.Empty
-                },
-                () =>
-                {
-                    var xmlExtent = new XmlExtent(
-                        new XDocument(new XElement("Types")),
-                        ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri, 
-                        XmlSettings.Empty);
-                    ProjektMeister.Data.Entities.AsObject.Types.Init(xmlExtent);
-                    return xmlExtent;
-                },
-                (x) =>
-                {
-                    // Successful loading, now assign the types
-                    Types.Person = x.Elements().FilterByProperty("name", "Person").First().AsIObject();
-                    Types.Task = x.Elements().FilterByProperty("name", "Task").First().AsIObject();
-                });
+            var typeExtent = pool.GetExtents(ExtentType.Type).FirstOrDefault();
+            if (typeExtent == null)
+            {
+                var xmlExtent = new XmlExtent(
+                    new XDocument(new XElement("Types")),
+                    ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri,
+                    XmlSettings.Empty);
+                ProjektMeister.Data.Entities.AsObject.Types.Init(xmlExtent);
+                workBenchManager.AddExtent(
+                    xmlExtent,
+                    new ExtentParam("Types", ExtentType.Type, storagePath));
+            }
+            else
+            {
+                // Successful loading, now assign the types
+                Types.Person = typeExtent.Elements().FilterByProperty("name", "Person").First().AsIObject();
+                Types.Task = typeExtent.Elements().FilterByProperty("name", "Task").First().AsIObject();
+            }
 
+            /////////////////////////////////////////////
+            // Checks whether the data was found
+            var dataExtent = pool.GetExtents(ExtentType.Data).FirstOrDefault();
+            if (dataExtent == null)
+            {
+                if (wasLoading)
+                {
+                    logger.Fail("No data extent was found, a new one will be created");
+                }
+
+                // Initializes the data
+                var dataDocument = new XDocument(
+                    new XElement("data",
+                        new XElement("persons"),
+                        new XElement("tasks")));
+
+                // Creates and adds the empty project
+                var xmlProjectExtent = new XmlExtent(dataDocument, DataUri);
+                xmlProjectExtent.Settings = this.xmlSettings;
+                workBenchManager.AddExtent(
+                    xmlProjectExtent,
+                    new ExtentParam(ExtentNames.DataExtent, ExtentType.Data));
+            }
+            else
+            {
+                var xmlExtent = dataExtent as XmlExtent;
+                Ensure.That(dataExtent != null, "DataExtent is not XmlExtent");
+
+                xmlExtent.Settings = this.xmlSettings;
+            }
+
+            //////////////////////////////////////////////////////
+            // Initialize views
             Database.InitViews(pool);
 
+            // Adds the query extent for the OpenTasks        
+            var openTaskExtent = new ReflectiveExtent(
+                    () =>
+                        PoolResolver.GetDefaultPool()
+                            .GetExtents(ExtentType.Data).First()
+                            .Elements()
+                        //.FilterByType(Types.Task)
+                            .FilterByProperty("category", "Task")
+                            .FilterByProperty("finished", false),
+                    DataUri + "/OpenTasks");
+            workBenchManager.AddExtent(
+                openTaskExtent,
+                new ExtentParam("Open Tasks", ExtentType.Query).AsPrepopulated());
+            
             // Initialize the viewManager
             var viewExtent = PoolResolver.GetDefaultPool().GetExtents(ExtentType.View).First();
             var viewManager = new DefaultViewManager(viewExtent);
             viewManager.Add(
                     ProjektMeister.Data.Entities.AsObject.Types.Person,
-                    Database.Views.PersonDetail, 
+                    Database.Views.PersonDetail,
                     true);
             viewManager.Add(
                     ProjektMeister.Data.Entities.AsObject.Types.Task,
-                    Database.Views.TaskDetail, 
+                    Database.Views.TaskDetail,
                     true);
             viewManager.DoAutogenerateForm = true;
 
             Injection.Application.Rebind<IViewManager>().ToConstant(viewManager);
-
-            // Initializes the data 
-            var dataDocument = new XDocument(
-                new XElement("data",
-                    new XElement("persons"),
-                    new XElement("tasks")));
-
-            // Creates and adds the empty project
-            var xmlProjectExtent = new XmlExtent(dataDocument, DataUri);
-            pool.Add(xmlProjectExtent, null, ExtentNames.DataExtent, ExtentType.Data);
-
-            // Adds the query extent for the OpenTasks
-            pool.Add(
-                new ReflectiveExtent(
-                    () =>
-                        PoolResolver.GetDefaultPool()
-                            .GetExtents(ExtentType.Data).First()
-                            .Elements()
-                            //.FilterByType(Types.Task)
-                            .FilterByProperty("category", "Task")
-                            .FilterByProperty("finished", false),
-                    DataUri + "/OpenTasks"),
-                null,
-                "Open Tasks",
-                ExtentType.Query);
         }
-
-        public override void InitializeFromScratch(ApplicationCore core)
-        {
-            logger.Notify("ProjectMeisterConfiguration: InitializeFromScratch");
-
-            this.InitializeAfterLoading(core);
-        }
-
-        public override void InitializeAfterLoading(ApplicationCore core)
-        {
-            logger.Notify("ProjectMeisterConfiguration: Initialize After Loading");
-            var pool = PoolResolver.GetDefaultPool();
-            var dataExtent = pool.GetExtents(ExtentType.Data).First() as XmlExtent;
-            Ensure.That(dataExtent != null, "DataExtent is not XmlExtent");
-            dataExtent.Settings = this.xmlSettings;
-        } 
 
         /// <summary>
         /// Demo data for application start
