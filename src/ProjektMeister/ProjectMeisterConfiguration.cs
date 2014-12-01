@@ -39,11 +39,6 @@ namespace ProjektMeister
         #endregion
 
         /// <summary>
-        /// Stores the xml settings
-        /// </summary>
-        private XmlSettings xmlSettings;
-
-        /// <summary>
         /// Stores the logger
         /// </summary>
         private ILog logger = new ClassLogger(typeof(ProjectMeisterConfiguration));
@@ -60,18 +55,6 @@ namespace ProjektMeister
 
             this.ApplicationName = "ProjektMeister";
             this.WindowTitle = "Depon.Net - ProjektMeister";
-
-            // Initializes the types. This is done once per startup
-            this.xmlSettings = new XmlSettings();
-            this.xmlSettings.OnlyUseAssignedNodes = true;
-            this.xmlSettings.Mapping.Add(
-                "person",
-                ProjektMeister.Data.Entities.AsObject.Types.Person,
-                (x) => x.Elements().Elements("persons").First());
-            this.xmlSettings.Mapping.Add(
-                "task",
-                ProjektMeister.Data.Entities.AsObject.Types.Task,
-                (x) => x.Elements().Elements("tasks").First());
         }
 
         public override void InitializeViewSet(ApplicationCore core)
@@ -108,6 +91,18 @@ namespace ProjektMeister
                 Types.Task = typeExtent.Elements().FilterByProperty("name", "Task").First().AsIObject();
             }
 
+            // Initializes the types. This is done once per startup
+            var xmlSettings = new XmlSettings();
+            xmlSettings.OnlyUseAssignedNodes = true;
+            xmlSettings.Mapping.Add(
+                "person",
+                ProjektMeister.Data.Entities.AsObject.Types.Person,
+                (x) => x.Elements().Elements("persons").First());
+            xmlSettings.Mapping.Add(
+                "task",
+                ProjektMeister.Data.Entities.AsObject.Types.Task,
+                (x) => x.Elements().Elements("tasks").First());
+
             /////////////////////////////////////////////
             // Checks whether the data was found
             var dataExtent = pool.GetExtents(ExtentType.Data).FirstOrDefault();
@@ -126,7 +121,7 @@ namespace ProjektMeister
 
                 // Creates and adds the empty project
                 var xmlProjectExtent = new XmlExtent(dataDocument, DataUri);
-                xmlProjectExtent.Settings = this.xmlSettings;
+                xmlProjectExtent.Settings = xmlSettings;
                 workBenchManager.AddExtent(
                     xmlProjectExtent,
                     new ExtentParam(ExtentNames.DataExtent, ExtentType.Data));
@@ -136,7 +131,7 @@ namespace ProjektMeister
                 var xmlExtent = dataExtent as XmlExtent;
                 Ensure.That(dataExtent != null, "DataExtent is not XmlExtent");
 
-                xmlExtent.Settings = this.xmlSettings;
+                xmlExtent.Settings = xmlSettings;
             }
 
             //////////////////////////////////////////////////////
@@ -149,7 +144,7 @@ namespace ProjektMeister
                         PoolResolver.GetDefaultPool()
                             .GetExtents(ExtentType.Data).First()
                             .Elements()
-                        //.FilterByType(Types.Task)
+                            .FilterByType(Types.Task)
                             .FilterByProperty("category", "Task")
                             .FilterByProperty("finished", false),
                     DataUri + "/OpenTasks");
