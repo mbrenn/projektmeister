@@ -36,6 +36,8 @@ namespace ProjektMeister
 
         protected override void OnExit(ExitEventArgs e)
         {
+            this.core.Stop();
+
             base.OnExit(e);
         }
     }

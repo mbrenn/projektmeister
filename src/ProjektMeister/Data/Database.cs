@@ -31,7 +31,9 @@ namespace ProjektMeister.Data
             var viewExtent = new XmlExtent(new XDocument(new XElement("views")), ProjectMeisterConfiguration.ViewUri);
 
             // Adds the extent of views to the pool
-            pool.Add(viewExtent, null, "ProjektMeister Views", ExtentType.View);
+            var workbenchMgr = WorkbenchManager.Get();
+            workbenchMgr.AddExtent(
+                viewExtent, new ExtentParam("ProjektMeister Views", ExtentType.View).AsPrepopulated());
 
             // Creates the factory
             var factory = Factory.GetFor(viewExtent);
@@ -115,32 +117,6 @@ namespace ProjektMeister.Data
             asObjectTasks.setAllowDelete(true);
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
 
-            var methodProvider = Injection.Application.Get<IMethodProvider>();
-            methodProvider.AddInstanceMethod(
-                asObjectTasks.Value,
-                "setBackgroundColor",
-                new Func<IObject, Color>(
-                    value =>
-                    {                        
-                        var endDate = ObjectConversion.ToDateTime(value.get("enddate").AsSingle());
-                        var isFinsihed = ObjectConversion.ToBoolean(value.get("finished").AsSingle());
-
-                        if (endDate < DateTime.Now &&!isFinsihed)
-                        {
-                            return new Color()
-                            {
-                                R = 1.0,
-                                G = 0.8,
-                                B = 0.8,
-                                A = 1.0
-                            };
-                        }
-                        else
-                        {
-                            return null;
-                        }
-                    }));
-
             ///////////////////////////////////////////////////
             // Short list for the tasks
             var shortTasks = factory.create(DatenMeister.Entities.AsObject.FieldInfo.Types.TableView);
@@ -206,6 +182,32 @@ namespace ProjektMeister.Data
             asObjectTasks.setAllowEdit(true);
             asObjectTasks.setAllowDelete(true);
             asObjectTasks.setMainType(ProjektMeister.Data.Entities.AsObject.Types.Task);
+
+            var methodProvider = Injection.Application.Get<IMethodProvider>();
+            methodProvider.AddInstanceMethod(
+                asObjectTasks.Value,
+                "setBackgroundColor",
+                new Func<IObject, Color>(
+                    value =>
+                    {
+                        var endDate = ObjectConversion.ToDateTime(value.get("enddate").AsSingle());
+                        var isFinsihed = ObjectConversion.ToBoolean(value.get("finished").AsSingle());
+
+                        if (endDate < DateTime.Now && !isFinsihed)
+                        {
+                            return new Color()
+                            {
+                                R = 1.0,
+                                G = 0.8,
+                                B = 0.8,
+                                A = 1.0
+                            };
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }));
         }
 
         public static class Views
