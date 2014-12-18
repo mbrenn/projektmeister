@@ -70,11 +70,11 @@ namespace ProjektMeister
             var pool = PoolResolver.GetDefaultPool();
             
             ////////////////////////////////////////////////
-            // Checks and or defines the types
-            var storagePath = core.GetApplicationStoragePathFor("Types");
+            // Checks and or defines the types            
             var typeExtent = pool.GetExtents(ExtentType.Type).FirstOrDefault();
             if (typeExtent == null)
             {
+                var storagePath = core.GetApplicationStoragePathFor("Types");
                 var xmlExtent = new XmlExtent(
                     new XDocument(new XElement("Types")),
                     ProjektMeister.Data.Entities.AsObject.Types.DefaultExtentUri,
@@ -82,7 +82,7 @@ namespace ProjektMeister
                 ProjektMeister.Data.Entities.AsObject.Types.Init(xmlExtent);
                 workBenchManager.AddExtent(
                     xmlExtent,
-                    new ExtentParam("Types", ExtentType.Type, storagePath));
+                    new ExtentParam("Types", ExtentType.Type));
             }
             else
             {
