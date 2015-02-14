@@ -1,4 +1,5 @@
-﻿using BurnSystems.ObjectActivation;
+﻿using BurnSystems.Logging;
+using BurnSystems.ObjectActivation;
 using DatenMeister.AddOns;
 using DatenMeister.AddOns.Export.Excel;
 using DatenMeister.AddOns.Export.Report.Simple;
@@ -26,8 +27,9 @@ namespace ProjektMeister
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            BurnSystems.Logging.Log.TheLog.FilterLevel = BurnSystems.Logging.LogLevel.Everything;
-            BurnSystems.Logging.Log.TheLog.AddLogProvider(new BurnSystems.Logging.DebugProvider());
+            Log.TheLog.FilterLevel = LogLevel.Everything;
+            Log.TheLog.AddLogProvider(new DebugProvider());
+            Log.TheLog.AddLogProvider(new FileProvider("log.txt"));
 
             var result = DefaultModules.DefaultStartWith<ProjectMeisterConfiguration>(this);
             this.core = result.Core;

@@ -28,12 +28,7 @@ namespace ProjektMeister.Data
     {        
         public static void InitViews(IPool pool)
         {
-            var viewExtent = new XmlExtent(new XDocument(new XElement("views")), ProjectMeisterConfiguration.ViewUri);
-
-            // Adds the extent of views to the pool
-            var workbenchMgr = WorkbenchManager.Get();
-            workbenchMgr.AddExtent(
-                viewExtent, new ExtentParam("ProjektMeister Views", ExtentType.View).AsPrepopulated());
+            var viewExtent = pool.GetExtents(ExtentType.View).First();                
 
             // Creates the factory
             var factory = Factory.GetFor(viewExtent);
@@ -208,6 +203,21 @@ namespace ProjektMeister.Data
                             return null;
                         }
                     }));
+
+
+            // Initialize the viewManager
+            var viewManager = new DefaultViewManager(viewExtent);
+            viewManager.Add(
+                    ProjektMeister.Data.Entities.AsObject.Types.Person,
+                    Database.Views.PersonDetail,
+                    true);
+            viewManager.Add(
+                    ProjektMeister.Data.Entities.AsObject.Types.Task,
+                    Database.Views.TaskDetail,
+                    true);
+            viewManager.DoAutogenerateForm = true; // Allow the autogeneration of forms
+
+            Injection.Application.Rebind<IViewManager>().ToConstant(viewManager);
         }
 
         public static class Views

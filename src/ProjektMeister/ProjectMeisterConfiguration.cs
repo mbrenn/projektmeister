@@ -6,6 +6,7 @@ using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
 using DatenMeister.DataProvider.Xml;
 using DatenMeister.Logic;
+using DatenMeister.Logic.Settings;
 using DatenMeister.Logic.TypeResolver;
 using DatenMeister.Logic.Views;
 using DatenMeister.Pool;
@@ -136,6 +137,7 @@ namespace ProjektMeister
 
             //////////////////////////////////////////////////////
             // Initialize views
+            
             Database.InitViews(pool);
 
             // Adds the query extent for the OpenTasks        
@@ -151,21 +153,6 @@ namespace ProjektMeister
             workBenchManager.AddExtent(
                 openTaskExtent,
                 new ExtentParam("Open Tasks", ExtentType.Query).AsPrepopulated());
-            
-            // Initialize the viewManager
-            var viewExtent = PoolResolver.GetDefaultPool().GetExtents(ExtentType.View).First();
-            var viewManager = new DefaultViewManager(viewExtent);
-            viewManager.Add(
-                    ProjektMeister.Data.Entities.AsObject.Types.Person,
-                    Database.Views.PersonDetail,
-                    true);
-            viewManager.Add(
-                    ProjektMeister.Data.Entities.AsObject.Types.Task,
-                    Database.Views.TaskDetail,
-                    true);
-            viewManager.DoAutogenerateForm = true; // Allow the autogeneration of forms
-
-            Injection.Application.Rebind<IViewManager>().ToConstant(viewManager);
         }
 
         /// <summary>
