@@ -1,5 +1,4 @@
-﻿using BurnSystems.Logging;
-using BurnSystems.ObjectActivation;
+﻿using BurnSystems.Logger;
 using DatenMeister.AddOns;
 using DatenMeister.AddOns.Export.Excel;
 using DatenMeister.AddOns.Export.Report.Simple;

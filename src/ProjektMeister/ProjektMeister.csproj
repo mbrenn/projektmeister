@@ -38,6 +38,13 @@
     <ApplicationIcon>icons.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BurnSystems, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5e47e01beba24f18, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\datenmeister\src\packages\BurnSystems.1.0.0.0\lib\net451\BurnSystems.dll</HintPath>
+    </Reference>
+    <Reference Include="BurnSystems.Logger">
+      <HintPath>..\..\..\datenmeister\src\packages\BurnSystems.Logger.1.0.2.0\lib\net45\BurnSystems.Logger.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\..\datenmeister\src\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
@@ -110,10 +117,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\burnsystems\src\BurnSystems.csproj">
-      <Project>{42023d16-afd1-4d99-bc39-9ef46982eb54}</Project>
-      <Name>BurnSystems</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\datenmeister\src\DatenMeister.AddOns\DatenMeister.AddOns.csproj">
       <Project>{c4672023-3e93-45eb-a797-7c144dff43fc}</Project>
       <Name>DatenMeister.AddOns</Name>
