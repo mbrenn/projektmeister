@@ -160,6 +160,10 @@ namespace ProjektMeister.Data
                 {
                     isMultiline = true,
                     height = -1
+                },
+                new SubElementList("Comments", "comments")
+                {
+
                 });
 
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
