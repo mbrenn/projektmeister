@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjektMeister.Data.Entities
 {
-    public class Comment
+    public class Remark
     {
         public DateTime created
         {

@@ -2,22 +2,22 @@ namespace ProjektMeister.Data.Entities.AsObject
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Comment : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
+    public class Remark : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
         private DatenMeister.IObject obj;
-        public Comment(DatenMeister.IObject obj)
+        public Remark(DatenMeister.IObject obj)
         {
             this.obj = obj;
         }
 
         public static DatenMeister.IObject create(DatenMeister.IFactory factory)
         {
-            return factory.create(ProjektMeister.Data.Entities.AsObject.Types.Comment);
+            return factory.create(ProjektMeister.Data.Entities.AsObject.Types.Remark);
         }
 
-        public static Comment createTyped(DatenMeister.IFactory factory)
+        public static Remark createTyped(DatenMeister.IFactory factory)
         {
-            return new Comment(create(factory));
+            return new Remark(create(factory));
         }
 
         #region IObject Implementation
@@ -622,28 +622,28 @@ namespace ProjektMeister.Data.Entities.AsObject
             obj.set("finished", value);
         }
 
-        public System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> getComments()
+        public System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark> getComments()
         {
             return getComments(this);
         }
 
-        public void setComments(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> value)
+        public void setComments(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark> value)
         {
             setComments(this, value);
         }
 
-        public void pushComment(ProjektMeister.Data.Entities.Comment value)
+        public void pushComment(ProjektMeister.Data.Entities.Remark value)
         {
             pushComment(this, value);
         }
 
-        public static System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> getComments(DatenMeister.IObject obj)
+        public static System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark> getComments(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsEnumeration<ProjektMeister.Data.Entities.Comment>(obj.get("comments"));
-            return (result is System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>) ? ((System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>) result) : default(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment>);
+            var result = DatenMeister.Extensions.AsEnumeration<ProjektMeister.Data.Entities.Remark>(obj.get("comments"));
+            return (result is System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>) ? ((System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>) result) : default(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>);
         }
 
-        public static void setComments(DatenMeister.IObject obj, System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Comment> value)
+        public static void setComments(DatenMeister.IObject obj, System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark> value)
         {
             obj.set("comments", value);
         }
@@ -654,7 +654,7 @@ namespace ProjektMeister.Data.Entities.AsObject
             list.Add(value);
         }
 
-        public static void pushComment(DatenMeister.IObject obj, ProjektMeister.Data.Entities.Comment value)
+        public static void pushComment(DatenMeister.IObject obj, ProjektMeister.Data.Entities.Remark value)
         {
             var list = DatenMeister.Extensions.AsReflectiveCollection(obj.get("comments"));
             list.Add(value);

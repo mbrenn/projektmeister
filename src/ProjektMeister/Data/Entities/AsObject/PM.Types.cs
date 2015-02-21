@@ -17,11 +17,11 @@ namespace ProjektMeister.Data.Entities.AsObject
         public static void Init(DatenMeister.IURIExtent extent)
         {
             var factory = DatenMeister.DataProvider.Factory.GetFor(extent);
-            if(Types.Comment == null || true)
+            if(Types.Remark == null || true)
             {
-                Types.Comment = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
-                DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Comment, "Comment");
-                extent.Elements().add(Types.Comment);
+                Types.Remark = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Class);
+                DatenMeister.Entities.AsObject.Uml.Type.setName(Types.Remark, "Remark");
+                extent.Elements().add(Types.Remark);
             }
 
             if(Types.Person == null || true)
@@ -47,24 +47,24 @@ namespace ProjektMeister.Data.Entities.AsObject
             OnInitCompleted();
 
             {
-                // Comment.created
+                // Remark.created
                 var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
                 DatenMeister.Entities.AsObject.Uml.Property.setName(property, "created");
-                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Remark, property);
             }
 
             {
-                // Comment.author
+                // Remark.author
                 var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
                 DatenMeister.Entities.AsObject.Uml.Property.setName(property, "author");
-                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Remark, property);
             }
 
             {
-                // Comment.body
+                // Remark.body
                 var property = factory.create(DatenMeister.Entities.AsObject.Uml.Types.Property);
                 DatenMeister.Entities.AsObject.Uml.Property.setName(property, "body");
-                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Comment, property);
+                DatenMeister.Entities.AsObject.Uml.Class.pushOwnedAttribute(Types.Remark, property);
             }
 
             {
@@ -146,7 +146,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         }
 
-        public static DatenMeister.IObject Comment;
+        public static DatenMeister.IObject Remark;
 
         public static DatenMeister.IObject Person;
 
@@ -160,7 +160,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static void AssignTypeMapping(DatenMeister.DataProvider.DotNet.IMapsMetaClassFromDotNet mapping)
         {
-            mapping.Add(typeof(ProjektMeister.Data.Entities.Comment), Types.Comment);
+            mapping.Add(typeof(ProjektMeister.Data.Entities.Remark), Types.Remark);
             mapping.Add(typeof(ProjektMeister.Data.Entities.Person), Types.Person);
             mapping.Add(typeof(ProjektMeister.Data.Entities.Task), Types.Task);
         }

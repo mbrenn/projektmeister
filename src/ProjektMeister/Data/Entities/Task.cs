@@ -38,7 +38,7 @@ namespace ProjektMeister.Data.Entities
             set;
         }
 
-        public IList<Comment> comments
+        public IList<Remark> comments
         {
             get;
             set;

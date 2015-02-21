@@ -156,14 +156,14 @@ namespace ProjektMeister.Data
                 {
                     tableViewInfo = shortTasks
                 },
-                new TextField("Comment", "comment")
+                /*new TextField("Comment", "comment")
                 {
                     isMultiline = true,
                     height = -1
-                },
+                },*/
                 new SubElementList("Comments", "comments")
                 {
-
+                    typeForNew = ProjektMeister.Data.Entities.AsObject.Types.Remark
                 });
 
             Views.TaskDetail.set("fieldInfos", taskDetailColumns);
