@@ -1,7 +1,6 @@
 ﻿using DatenMeister;
 using DatenMeister.DataProvider;
 using DatenMeister.DataProvider.DotNet;
-using DatenMeister.DataProvider.Views;
 using DatenMeister.DataProvider.Xml;
 using DatenMeister.Entities.DM.Primitives;
 using DatenMeister.Entities.FieldInfos;
@@ -189,8 +188,8 @@ namespace ProjektMeister.Data
                 new Func<IObject, Color>(
                     value =>
                     {
-                        var endDate = ObjectConversion.ToDateTime(value.get("enddate").AsSingle());
-                        var isFinsihed = ObjectConversion.ToBoolean(value.get("finished").AsSingle());
+                        var endDate = ObjectConversion.ToDateTime(value.getAsSingle("enddate"));
+                        var isFinsihed = ObjectConversion.ToBoolean(value.getAsSingle("finished"));
 
                         if (endDate < DateTime.Now && !isFinsihed)
                         {

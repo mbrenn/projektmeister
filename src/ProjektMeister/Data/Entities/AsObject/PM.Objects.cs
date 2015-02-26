@@ -1,6 +1,6 @@
 namespace ProjektMeister.Data.Entities.AsObject
 {
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.1.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Remark : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -43,9 +43,9 @@ namespace ProjektMeister.Data.Entities.AsObject
         /// </summary>
         /// <param name="propertyName">Name of the property</param>
         /// <returns>Retrieved object</returns>
-        public object get(string propertyName)
+        public object get(string propertyName, DatenMeister.RequestType requestType = DatenMeister.RequestType.AsDefault)
         {
-            return this.obj.get(propertyName);
+            return this.obj.get(propertyName, requestType);
         }
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.DateTime getCreated(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("created"));
+            var result = obj.get("created", DatenMeister.RequestType.AsSingle);
             return (result is System.DateTime) ? ((System.DateTime) result) : default(System.DateTime);
         }
 
@@ -148,7 +148,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getAuthor(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("author"));
+            var result = obj.get("author", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -169,7 +169,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getBody(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("body"));
+            var result = obj.get("body", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -180,7 +180,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.1.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Person : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -223,9 +223,9 @@ namespace ProjektMeister.Data.Entities.AsObject
         /// </summary>
         /// <param name="propertyName">Name of the property</param>
         /// <returns>Retrieved object</returns>
-        public object get(string propertyName)
+        public object get(string propertyName, DatenMeister.RequestType requestType = DatenMeister.RequestType.AsDefault)
         {
-            return this.obj.get(propertyName);
+            return this.obj.get(propertyName, requestType);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getFirstname(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("firstname"));
+            var result = obj.get("firstname", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -328,7 +328,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getName(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
+            var result = obj.get("name", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -349,7 +349,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getEmail(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("email"));
+            var result = obj.get("email", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -370,7 +370,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getPhone(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("phone"));
+            var result = obj.get("phone", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -391,7 +391,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getTitle(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("title"));
+            var result = obj.get("title", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -402,7 +402,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
     }
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.0.8.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("DatenMeister.Logic.SourceFactory.CSharpSourceFactory", "1.1.0.0")]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Task : DatenMeister.IObject, DatenMeister.DataProvider.IProxyObject
     {
@@ -445,9 +445,9 @@ namespace ProjektMeister.Data.Entities.AsObject
         /// </summary>
         /// <param name="propertyName">Name of the property</param>
         /// <returns>Retrieved object</returns>
-        public object get(string propertyName)
+        public object get(string propertyName, DatenMeister.RequestType requestType = DatenMeister.RequestType.AsDefault)
         {
-            return this.obj.get(propertyName);
+            return this.obj.get(propertyName, requestType);
         }
 
         /// <summary>
@@ -529,7 +529,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.String getName(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("name"));
+            var result = obj.get("name", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToString(result);
         }
 
@@ -550,7 +550,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.DateTime getStartdate(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("startdate"));
+            var result = obj.get("startdate", DatenMeister.RequestType.AsSingle);
             return (result is System.DateTime) ? ((System.DateTime) result) : default(System.DateTime);
         }
 
@@ -571,7 +571,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.DateTime getEnddate(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("enddate"));
+            var result = obj.get("enddate", DatenMeister.RequestType.AsSingle);
             return (result is System.DateTime) ? ((System.DateTime) result) : default(System.DateTime);
         }
 
@@ -592,7 +592,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static ProjektMeister.Data.Entities.Person getResponsible(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("responsible"));
+            var result = obj.get("responsible", DatenMeister.RequestType.AsSingle);
             return (result is ProjektMeister.Data.Entities.Person) ? ((ProjektMeister.Data.Entities.Person) result) : default(ProjektMeister.Data.Entities.Person);
         }
 
@@ -613,7 +613,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.Boolean getFinished(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsSingle(obj.get("finished"));
+            var result = obj.get("finished", DatenMeister.RequestType.AsSingle);
             return DatenMeister.ObjectConversion.ToBoolean(result);
         }
 
@@ -639,7 +639,7 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark> getComments(DatenMeister.IObject obj)
         {
-            var result = DatenMeister.Extensions.AsEnumeration<ProjektMeister.Data.Entities.Remark>(obj.get("comments"));
+            var result = DatenMeister.Extensions.getAsReflectiveSequence(obj, "comments");
             return (result is System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>) ? ((System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>) result) : default(System.Collections.Generic.IEnumerable<ProjektMeister.Data.Entities.Remark>);
         }
 
@@ -650,13 +650,13 @@ namespace ProjektMeister.Data.Entities.AsObject
 
         public static void pushComment(DatenMeister.IObject obj, DatenMeister.IObject value)
         {
-            var list = DatenMeister.Extensions.AsReflectiveCollection(obj.get("comments"));
+            var list = DatenMeister.Extensions.getAsReflectiveSequence(obj, "comments");
             list.Add(value);
         }
 
         public static void pushComment(DatenMeister.IObject obj, ProjektMeister.Data.Entities.Remark value)
         {
-            var list = DatenMeister.Extensions.AsReflectiveCollection(obj.get("comments"));
+            var list = DatenMeister.Extensions.getAsReflectiveSequence(obj, "comments");
             list.Add(value);
         }
 
